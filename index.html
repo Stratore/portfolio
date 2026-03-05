@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="green">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pierre Puget | Portfolio Créatif | C++ / POO & Web</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="mouse-glow"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div class="scroll-progress-bar" id="scrollBar"></div>
+
+    <div class="lang-switcher">
+        <button onclick="changeLanguage('fr')" class="lang-btn active" id="btn-fr">FR</button>
+        <button onclick="changeLanguage('en')" class="lang-btn" id="btn-en">EN</button>
+        <button onclick="changeLanguage('es')" class="lang-btn" id="btn-es">ES</button>
+        <button onclick="changeLanguage('zh')" class="lang-btn" id="btn-zh">中文</button>
+    </div>
+
+    <div class="theme-switcher">
+        <div class="theme-dot" style="background: #00ffa3;" onclick="setTheme('green')" title="Cyber Green"></div>
+        <div class="theme-dot" style="background: #00d2ff;" onclick="setTheme('blue')" title="Tech Blue"></div>
+        <div class="theme-dot" style="background: #b14bf4;" onclick="setTheme('purple')" title="Neon Purple"></div>
+        <div class="theme-dot" style="background: #ff5e00;" onclick="setTheme('orange')" title="Sunset Orange"></div>
+        <div class="theme-dot retro-btn" onclick="setTheme('retro')" title="Mode Rétro Hardware">💾</div>
+    </div>
+
+    <button class="terminal-toggle-btn" onclick="toggleTerminal()" title="Ouvrir le terminal">
+        >_
+    </button>
+
+    <nav class="floating-nav">
+        <ul>
+            <li><a href="#accueil" data-i18n="navAccueil">Accueil</a></li>
+            <li><a href="#apropos" data-i18n="navApropos">À Propos</a></li>
+            <li><a href="#competences" data-i18n="navCompetences">Compétences</a></li>
+            <li><a href="#projets" data-i18n="navProjets">Projets</a></li>
+            <li><a href="#parcours" data-i18n="navParcours">Parcours</a></li>
+            <li><a href="#contact" data-i18n="navContact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="accueil" class="hero section-padding">
+        <div class="parallax-bg" id="parallax-text">DEVELOPER</div>
+        
+        <div class="hero-content reveal text-center">
+            <h1>Pierre <span class="accent-text">Puget</span></h1>
+            <h2 class="role"><span id="typewriter" data-i18n="heroRole">Développeur & Concepteur</span><span class="cursor-blink">|</span></h2>
+            <p class="subtitle" data-i18n="heroQuote">« On ne construit pas son parcours en avançant en ligne droite, mais en explorant, en essayant, en recommençant. »</p>
+            
+            <div class="hero-actions">
+                <button onclick="openModal('pdf-modal')" class="cta-button" data-i18n="btnCV">Visualiser mon CV</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="apropos" class="section-padding">
+        <div class="about-content text-center reveal">
+            <h2 class="section-title" data-i18n="aboutTitle">L'informatique, <br><span class="accent-text">une évidence.</span></h2>
+            <p data-i18n="aboutP1" class="max-w-800">J'ai toujours eu une attache particulière avec l'informatique et la tech en général. Étant fils d'informaticien, j'ai toujours été baigné dans cet environnement numérique.</p>
+            <p data-i18n="aboutP2" class="max-w-800 mt-1">Ce portfolio reflète ce mouvement : celui d'un esprit qui cherche à comprendre, à créer et à s'améliorer continuellement.</p>
+            <div class="soft-skills-tags mt-2">
+                <span data-i18n="tagTeam">#EspritDÉquipe</span>
+                <span data-i18n="tagClient">#RelationClient</span>
+                <span data-i18n="tagCuriosity">#Curiosité</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="formation" class="section-padding">
+        <div class="formation-card tilt-effect reveal">
+            <div class="formation-content text-center">
+                <span class="tag mb-1" data-i18n="eduTag">En cours (2025 - 2026)</span>
+                <h2 data-i18n="eduTitle">Formation <span class="accent-text">Actuelle</span></h2>
+                <h3 class="mt-2">BUT Informatique</h3>
+                <p class="text-muted">Aix-Marseille Université (IUT d'Arles)</p>
+                <p class="mt-2 max-w-800 mx-auto" data-i18n="eduDesc">Formation technique approfondie axée sur le développement de logiciels, la conception orientée objet (C++), l'administration système et la gestion de bases de données.</p>
+                <a href="https://iut.univ-amu.fr/fr/sites-geographiques/arles" target="_blank" class="link-btn mt-2" data-i18n="eduLink">Découvrir mon établissement →</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="competences" class="section-padding">
+        <h2 class="section-title center reveal">Mes <span class="accent-text" data-i18n="skillsTitle">Compétences</span></h2>
+        <p class="center text-muted reveal max-w-700" data-i18n="skillsDesc">
+            * Les jauges ci-dessous représentent mon <strong>affinité</strong> et ma passion pour ces technologies.
+        </p>
+
+        <div class="skills-container">
+            <div class="skills-block reveal">
+                <h3 data-i18n="skillDevTitle">Développement & Algorithmique</h3>
+                <div class="skill-item">
+                    <div class="skill-info"><span class="accent-text" data-i18n="skillCpp">C++ (POO) ⭐ Favori</span> <span>95%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" data-width="95%"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Python</span> <span>70%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" data-width="70%"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span data-i18n="skillAlgo">Algorithmique & Logique</span> <span>80%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" data-width="80%"></div></div>
+                </div>
+            </div>
+
+            <div class="skills-block reveal delay-1">
+                <h3 data-i18n="skillSysTitle">Systèmes & Web</h3>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Linux / Bash</span> <span>75%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" data-width="75%"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span data-i18n="skillOS">Architecture OS & Windows</span> <span>80%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" data-width="80%"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>HTML5 / CSS3 / SQL</span> <span>85%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" data-width="85%"></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projets" class="section-padding">
+        <h2 class="section-title center reveal"><span data-i18n="projectsTitle1">Réalisations</span> <span class="accent-text" data-i18n="projectsTitle2">& Projets</span></h2>
+        
+        <div class="filter-container reveal text-center">
+            <button class="filter-btn active" data-filter="all" data-i18n="filterAll">Tous</button>
+            <button class="filter-btn" data-filter="cpp">C++</button>
+            <button class="filter-btn" data-filter="algo" data-i18n="tagAlgo">Algorithmique</button>
+        </div>
+
+        <div class="projects-grid">
+            <div class="project-card reveal" data-category="cpp algo">
+                <div class="project-image">
+                    <img src="assets/projet-bibliotheque.jpg" alt="SAE Bibliothèque">
+                    <div class="project-overlay">
+                        <span class="tag">C++</span>
+                        <span class="tag" data-i18n="tagAlgo">Algorithmique</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3 data-i18n="proj1Title">SAE S1.01 | Gestion de Bibliothèque</h3>
+                    <p data-i18n="proj1Desc">Conception d'un système robuste de gestion d'inventaire. Focus sur l'optimisation des structures de données.</p>
+                    <a href="https://github.com/ton-profil" target="_blank" class="github-link mt-2">Voir le code ➔</a>
+                </div>
+            </div>
+
+            <div class="project-card reveal delay-1" data-category="cpp">
+                <div class="project-image">
+                    <img src="assets/projet-vinted.jpg" alt="Vinted Accounting Tool">
+                    <div class="project-overlay">
+                        <span class="tag">C++</span>
+                        <span class="tag">POO</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3 data-i18n="proj2Title">Vinted Tracker | Logiciel de Comptabilité</h3>
+                    <p data-i18n="proj2Desc">Conception en C++ (POO) d'un outil personnalisé pour le suivi des ventes en ligne. Automatisation du calcul des bénéfices.</p>
+                    <a href="https://github.com/ton-profil" target="_blank" class="github-link mt-2">Voir le code ➔</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="parcours" class="section-padding">
+        <h2 class="section-title center reveal"><span data-i18n="journeyTitle1">Expériences</span> <span class="accent-text" data-i18n="journeyTitle2">& Parcours</span></h2>
+        <div class="modern-timeline">
+            <div class="timeline-card reveal">
+                <div class="date" data-i18n="exp1Date">Cybersécurité</div>
+                <h3>ESISAR (Valence)</h3>
+                <p data-i18n="exp1Desc">Stage de découverte au sein d'une école d'ingénieurs spécialisée dans les systèmes embarqués.</p>
+            </div>
+            <div class="timeline-card reveal">
+                <div class="date" data-i18n="exp2Date">Développement & Sys</div>
+                <h3>BUT Informatique (IUT d'Arles)</h3>
+                <p data-i18n="exp2Desc">Développement logiciel (Python, C++), administration système sous Linux (Bash) et web.</p>
+            </div>
+            <div class="timeline-card reveal">
+                <div class="date" data-i18n="exp3Date">Analytique</div>
+                <h3>Campus de Luminy (Marseille)</h3>
+                <p data-i18n="exp3Desc">Stage d'observation en Mathématiques. Découverte de l'application scientifique.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section-padding reveal">
+        <div class="contact-business-card">
+            <div class="card-content">
+                <h2 data-i18n="contactTitle">Envie de collaborer ?</h2>
+                <div class="contact-links mt-2">
+                    <a href="mailto:pierre.puget@etu.univ-amu.fr" class="contact-btn">
+                        <span class="label">Email</span>
+                        <span class="value">pierre.puget@etu.univ-amu.fr</span>
+                    </a>
+                    <button onclick="openModal('pdf-modal')" class="contact-btn btn-clear">
+                        <span class="label">Curriculum Vitae</span>
+                        <span class="value accent-text" data-i18n="btnCVShort">Voir mon CV</span>
+                    </button>
+                    <a href="https://pierre-puget-etu.pedaweb.univ-amu.fr" target="_blank" class="contact-btn">
+                        <span class="label" data-i18n="contactSite">Site Universitaire</span>
+                        <span class="value">pierre-puget-etu.pedaweb</span>
+                    </a>
+                    <a href="https://linkedin.com/in/pierre-puget" target="_blank" class="contact-btn">
+                        <span class="label">LinkedIn</span>
+                        <span class="value">Pierre Puget</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="progress-wrap" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+        </svg>
+        <span class="arrow-up">↑</span>
+    </div>
+
+    <div id="pdf-modal" class="modal-overlay" onclick="closeModal(event, 'pdf-modal')">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal(null, 'pdf-modal')">×</button>
+            <iframe src="CV_Pierre_Puget.pdf" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <div id="terminal-modal" class="modal-overlay" onclick="closeModal(event, 'terminal-modal')">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="term-btns">
+                    <span class="red" onclick="closeModal(null, 'terminal-modal')"></span>
+                    <span class="yellow"></span>
+                    <span class="green"></span>
+                </div>
+                <div class="term-title">pierre@portfolio:~</div>
+            </div>
+            <div class="terminal-body" id="terminal-body">
+                <p>Connexion établie. Bienvenue dans le terminal de Pierre.</p>
+                <p>Tapez <span class="accent-text">'help'</span> pour voir les commandes disponibles.</p>
+            </div>
+            <div class="terminal-input-line">
+                <span class="prompt">pierre:~$</span>
+                <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" autofocus>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
