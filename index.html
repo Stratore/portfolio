@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pierre Puget | Portfolio Créatif | C++ / POO & Web</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -49,8 +50,8 @@
         
         <div class="hero-content reveal text-center">
             <h1>Pierre <span class="accent-text">Puget</span></h1>
-            <h2 class="role"><span id="typewriter" data-i18n="heroRole">Développeur & Concepteur</span><span class="cursor-blink">|</span></h2>
-            <p class="subtitle" data-i18n="heroQuote">« On ne construit pas son parcours en avançant en ligne droite, mais en explorant, en essayant, en recommençant. »</p>
+            <h2 class="role mt-half"><span id="typewriter"></span><span class="cursor-blink">|</span></h2>
+            <p class="subtitle mt-half" data-i18n="heroQuote">« On ne construit pas son parcours en avançant en ligne droite, mais en explorant, en essayant, en recommençant. »</p>
             
             <div class="hero-actions">
                 <button onclick="openModal('pdf-modal')" class="cta-button" data-i18n="btnCV">Visualiser mon CV</button>
@@ -61,8 +62,8 @@
     <section id="apropos" class="section-padding">
         <div class="about-content text-center reveal">
             <h2 class="section-title" data-i18n="aboutTitle">L'informatique, <br><span class="accent-text">une évidence.</span></h2>
-            <p data-i18n="aboutP1" class="max-w-800">J'ai toujours eu une attache particulière avec l'informatique et la tech en général. Étant fils d'informaticien, j'ai toujours été baigné dans cet environnement numérique.</p>
-            <p data-i18n="aboutP2" class="max-w-800 mt-1">Ce portfolio reflète ce mouvement : celui d'un esprit qui cherche à comprendre, à créer et à s'améliorer continuellement.</p>
+            <p data-i18n="aboutP1" class="max-w-800 text-main">J'ai toujours eu une attache particulière avec l'informatique et la tech en général. Étant fils d'informaticien, j'ai toujours été baigné dans cet environnement numérique.</p>
+            <p data-i18n="aboutP2" class="max-w-800 text-main mt-1">Ce portfolio reflète ce mouvement : celui d'un esprit qui cherche à comprendre, à créer et à s'améliorer continuellement.</p>
             <div class="soft-skills-tags mt-2">
                 <span data-i18n="tagTeam">#EspritDÉquipe</span>
                 <span data-i18n="tagClient">#RelationClient</span>
@@ -74,7 +75,7 @@
     <section id="formation" class="section-padding">
         <div class="formation-card tilt-effect reveal">
             <div class="formation-content text-center">
-                <span class="tag mb-1" data-i18n="eduTag">En cours (2025 - 2026)</span>
+                <span class="tag mb-1" data-i18n="eduTag">En cours (2023 - 2026)</span>
                 <h2 data-i18n="eduTitle">Formation <span class="accent-text">Actuelle</span></h2>
                 <h3 class="mt-2">BUT Informatique</h3>
                 <p class="text-muted">Aix-Marseille Université (IUT d'Arles)</p>
@@ -146,7 +147,7 @@
                 <div class="project-info">
                     <h3 data-i18n="proj1Title">SAE S1.01 | Gestion de Bibliothèque</h3>
                     <p data-i18n="proj1Desc">Conception d'un système robuste de gestion d'inventaire. Focus sur l'optimisation des structures de données.</p>
-                    <a href="https://github.com/ton-profil" target="_blank" class="github-link mt-2">Voir le code ➔</a>
+                    <a href="https://github.com/Stratore" target="_blank" class="github-link mt-2">Voir le code ➔</a>
                 </div>
             </div>
 
@@ -161,7 +162,7 @@
                 <div class="project-info">
                     <h3 data-i18n="proj2Title">Vinted Tracker | Logiciel de Comptabilité</h3>
                     <p data-i18n="proj2Desc">Conception en C++ (POO) d'un outil personnalisé pour le suivi des ventes en ligne. Automatisation du calcul des bénéfices.</p>
-                    <a href="https://github.com/ton-profil" target="_blank" class="github-link mt-2">Voir le code ➔</a>
+                    <a href="https://github.com/Stratore" target="_blank" class="github-link mt-2">Voir le code ➔</a>
                 </div>
             </div>
         </div>
@@ -201,11 +202,7 @@
                         <span class="label">Curriculum Vitae</span>
                         <span class="value accent-text" data-i18n="btnCVShort">Voir mon CV</span>
                     </button>
-                    <a href="https://pierre-puget-etu.pedaweb.univ-amu.fr" target="_blank" class="contact-btn">
-                        <span class="label" data-i18n="contactSite">Site Universitaire</span>
-                        <span class="value">pierre-puget-etu.pedaweb</span>
-                    </a>
-                    <a href="https://linkedin.com/in/pierre-puget" target="_blank" class="contact-btn">
+                    <a href="https://www.linkedin.com/in/pierre-puget-54b427366/" target="_blank" class="contact-btn">
                         <span class="label">LinkedIn</span>
                         <span class="value">Pierre Puget</span>
                     </a>
@@ -214,11 +211,8 @@
         </div>
     </section>
 
-    <div class="progress-wrap" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
-            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
-        </svg>
-        <span class="arrow-up">↑</span>
+    <div class="progress-wrap" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Retour en haut">
+        ↑
     </div>
 
     <div id="pdf-modal" class="modal-overlay" onclick="closeModal(event, 'pdf-modal')">
