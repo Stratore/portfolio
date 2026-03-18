@@ -275,12 +275,16 @@ body { background-color: var(--bg-color); color: var(--text-main); overflow-x: h
 
 /* === CORRECTION EMAIL SUR UNE LIGNE === */
 .contact-btn .value { 
-    font-size: 1.5 rem; /* Réduit très légèrement la taille pour s'assurer que ça rentre */
+    font-size: 0.85rem !important; /* Taille réduite et espace retiré. Le !important force l'application. */
     font-weight: 500; 
-    word-break: normal;
-    white-space: nowrap; /* Empêche de revenir à la ligne */
+    word-break: normal !important;
+    white-space: nowrap !important; /* Empêche formellement de revenir à la ligne */
+    overflow: hidden; /* Si c'est trop grand, on cache le surplus... */
+    text-overflow: ellipsis; /* ...et on met des petits points (...) à la fin */
+    width: 100%; /* S'assure que le texte prend toute la largeur dispo sans la dépasser */
     text-align: left; 
     color: #fff;
+    display: block; /* Nécessaire pour que l'overflow fonctionne bien */
 }
 
 /* === MODALS === */
