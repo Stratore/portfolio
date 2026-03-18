@@ -275,7 +275,7 @@ body { background-color: var(--bg-color); color: var(--text-main); overflow-x: h
 
 /* === CORRECTION EMAIL SUR UNE LIGNE === */
 .contact-btn .value { 
-    font-size: 0.95rem; /* Réduit très légèrement la taille pour s'assurer que ça rentre */
+    font-size: 1.5 rem; /* Réduit très légèrement la taille pour s'assurer que ça rentre */
     font-weight: 500; 
     word-break: normal;
     white-space: nowrap; /* Empêche de revenir à la ligne */
