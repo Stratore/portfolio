@@ -13,6 +13,7 @@
 [data-theme="blue"] { --accent: #00d2ff; --accent-dark: rgba(0, 210, 255, 0.1); }
 [data-theme="purple"] { --accent: #b14bf4; --accent-dark: rgba(177, 75, 244, 0.1); }
 [data-theme="orange"] { --accent: #ff5e00; --accent-dark: rgba(255, 94, 0, 0.1); }
+[data-theme="matrix"] { --bg-color: #050505; --text-main: #00ff00; --text-muted: #008800; --accent: #00ff00; --accent-dark: rgba(0, 255, 0, 0.1); --surface: rgba(0, 255, 0, 0.05); --surface-border: rgba(0, 255, 0, 0.2); }
 
 /* THEME RETRO HARDWARE */
 [data-theme="retro"] {
@@ -105,10 +106,10 @@ body { background-color: var(--bg-color); color: var(--text-main); overflow-x: h
     background-color: var(--accent); 
     position: fixed; 
     top: 0; left: 0; 
+    transform: translate(-50%, -50%); /* Ligne ajoutée pour centrer */
     border-radius: 50%; 
     pointer-events: none; 
     z-index: 9999; 
-    /* Pas de transition sur la position pour éviter le lag */
     transition: background-color 0.3s; 
 }
 .cursor-outline { 
@@ -116,11 +117,11 @@ body { background-color: var(--bg-color); color: var(--text-main); overflow-x: h
     border: 1px solid var(--accent); 
     position: fixed; 
     top: 0; left: 0; 
+    transform: translate(-50%, -50%); /* Ligne conservée pour centrer */
     border-radius: 50%; 
     pointer-events: none; 
     z-index: 9998; 
-    /* La transition de l'outline gère seulement l'effet de hover, pas les coordonnées (géré en JS) */
-    transition: background-color 0.2s, border-color 0.3s, transform 0.2s; 
+    transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.3s; 
 }
 .mouse-glow { position: fixed; top: 0; left: 0; width: 600px; height: 600px; background: radial-gradient(circle, var(--accent-dark) 0%, transparent 60%); border-radius: 50%; pointer-events: none; z-index: -1; transform: translate(-50%, -50%); transition: transform 0.1s ease-out, background 0.3s; }
 
@@ -152,7 +153,7 @@ body { background-color: var(--bg-color); color: var(--text-main); overflow-x: h
 .link-btn:hover::after { width: 100%; }
 .btn-clear { text-align: left; font-family: inherit; width: 100%; cursor: none; }
 
-/* === SWITCHERS === */
+/* === SWITCHERS (Langue & Thème) === */
 .lang-switcher { position: fixed; top: 2rem; right: 2rem; display: flex; gap: 0.5rem; z-index: 1001; background: rgba(10, 10, 10, 0.6); backdrop-filter: blur(16px); padding: 0.5rem; border-radius: 30px; border: 1px solid var(--surface-border); }
 .lang-btn { background: transparent; border: none; color: var(--text-muted); padding: 0.4rem 0.8rem; border-radius: 20px; transition: 0.3s; font-weight:bold; cursor: none;}
 .lang-btn.active, .lang-btn:hover { color: var(--accent); }
@@ -231,7 +232,7 @@ body { background-color: var(--bg-color); color: var(--text-main); overflow-x: h
 .timeline-card .date { color: var(--accent); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; font-weight: 600; }
 .timeline-card h3 { font-size: 1.8rem; margin-bottom: 1rem; }
 
-/* === SECTION CONTACT (3 COLONNES ESTHETIQUES) === */
+/* === SECTION CONTACT === */
 .contact-business-card { 
     background: linear-gradient(145deg, rgba(30, 30, 30, 0.7), rgba(10, 10, 10, 0.9)); 
     border: 1px solid rgba(255, 255, 255, 0.15); 
@@ -246,10 +247,9 @@ body { background-color: var(--bg-color); color: var(--text-main); overflow-x: h
 .contact-business-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
 .contact-business-card h2 { font-size: 3.5rem; margin-bottom: 3rem; letter-spacing: -1px;}
 
-/* GRILLE À 3 COLONNES POUR LES BOUTONS DE CONTACT */
 .contact-links { 
     display: grid; 
-    grid-template-columns: repeat(3, 1fr); /* 3 Colonnes égales */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 1.5rem; 
 }
 .contact-btn { 
@@ -272,7 +272,15 @@ body { background-color: var(--bg-color); color: var(--text-main); overflow-x: h
     box-shadow: 0 10px 25px var(--accent-dark);
 }
 .contact-btn .label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
-.contact-btn .value { font-size: 1.05rem; font-weight: 500; word-break: break-all; text-align: left; color: #fff;}
+
+/* === CORRECTION EMAIL SUR UNE LIGNE === */
+.contact-btn .value { 
+    font-size: 0.95rem; /* Réduit très légèrement la taille pour s'assurer que ça rentre */
+    font-weight: 500; 
+    white-space: nowrap; /* Empêche de revenir à la ligne */
+    text-align: left; 
+    color: #fff;
+}
 
 /* === MODALS === */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; opacity: 0; visibility: hidden; transition: 0.3s; display: flex; justify-content: center; align-items: center; cursor: none;}
@@ -301,7 +309,7 @@ body { background-color: var(--bg-color); color: var(--text-main); overflow-x: h
 /* === RESPONSIVE === */
 @media (max-width: 900px) {
     .skills-container, .projects-grid { grid-template-columns: 1fr; }
-    .contact-links { grid-template-columns: 1fr; } /* Revient à 1 colonne sur mobile pour la lisibilité */
+    .contact-links { grid-template-columns: 1fr; }
     .hero-content h1 { font-size: 4rem; }
     .lang-switcher { top: 1rem; right: 50%; transform: translateX(50%); }
     .theme-switcher { top: 4.5rem; right: 1rem; flex-direction: row; }
