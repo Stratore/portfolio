@@ -75,7 +75,7 @@
     <section id="formation" class="section-padding">
         <div class="formation-card tilt-effect reveal">
             <div class="formation-content text-center">
-                <span class="tag mb-1" data-i18n="eduTag">En cours (2023 - 2026)</span>
+                <span class="tag mb-1" data-i18n="eduTag">En cours (2025 - 2026)</span>
                 <h2 data-i18n="eduTitle">Formation <span class="accent-text">Actuelle</span></h2>
                 <h3 class="mt-2">BUT Informatique</h3>
                 <p class="text-muted">Aix-Marseille Université (IUT d'Arles)</p>
@@ -147,7 +147,10 @@
                 <div class="project-info">
                     <h3 data-i18n="proj1Title">SAE S1.01 | Gestion de Bibliothèque</h3>
                     <p data-i18n="proj1Desc">Conception d'un système robuste de gestion d'inventaire. Focus sur l'optimisation des structures de données.</p>
-                    <a href="https://github.com/Stratore" target="_blank" class="github-link mt-2">Voir le code ➔</a>
+                    <div class="mt-2" style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <a href="#" onclick="event.preventDefault(); openProjectModal('proj1')" class="link-btn" data-i18n="btnReadMore">En savoir plus</a>
+                        <a href="https://github.com/Stratore" target="_blank" class="github-link">Voir le code ➔</a>
+                    </div>
                 </div>
             </div>
 
@@ -162,7 +165,10 @@
                 <div class="project-info">
                     <h3 data-i18n="proj2Title">Vinted Tracker | Logiciel de Comptabilité</h3>
                     <p data-i18n="proj2Desc">Conception en C++ (POO) d'un outil personnalisé pour le suivi des ventes en ligne. Automatisation du calcul des bénéfices.</p>
-                    <a href="https://github.com/Stratore" target="_blank" class="github-link mt-2">Voir le code ➔</a>
+                    <div class="mt-2" style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <a href="#" onclick="event.preventDefault(); openProjectModal('proj2')" class="link-btn" data-i18n="btnReadMore">En savoir plus</a>
+                        <a href="https://github.com/Stratore" target="_blank" class="github-link">Voir le code ➔</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -194,7 +200,7 @@
             <div class="card-content">
                 <h2 data-i18n="contactTitle">Envie de collaborer ?</h2>
                 <div class="contact-links mt-2">
-                    <a href="mailto:pierre.puget@etu.univ-amu.fr" class="contact-btn">
+                    <a href="mailto:pierre.puget@etu.univ-amu.fr" class="contact-btn email-full-width">
                         <span class="label">Email</span>
                         <span class="value">pierre.puget@etu.univ-amu.fr</span>
                     </a>
@@ -222,6 +228,16 @@
         </div>
     </div>
 
+    <div id="project-modal" class="modal-overlay" onclick="closeModal(event, 'project-modal')">
+        <div class="modal-content project-modal-content">
+            <button class="close-btn" onclick="closeModal(null, 'project-modal')">×</button>
+            <div class="project-modal-body">
+                <h3 id="project-modal-title" class="accent-text" style="font-size: 2rem; margin-bottom: 1.5rem;">Titre</h3>
+                <p id="project-modal-desc" class="text-main" style="line-height: 1.8; font-size: 1.1rem; white-space: pre-wrap;">Description...</p>
+            </div>
+        </div>
+    </div>
+
     <div id="terminal-modal" class="modal-overlay" onclick="closeModal(event, 'terminal-modal')">
         <div class="terminal-window">
             <div class="terminal-header">
@@ -245,4 +261,4 @@
 
     <script src="app.js"></script>
 </body>
-</html>
+</html> 
