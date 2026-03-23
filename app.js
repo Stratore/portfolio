@@ -4,7 +4,7 @@ const translations = {
         heroRoles: ["Développeur C++", "Concepteur de Solutions", "Administrateur Système", "Créateur Web", "Passionné d'Algorithmique"],
         navAccueil: "Accueil", navApropos: "À Propos", navCompetences: "Compétences", navProjets: "Projets", navParcours: "Parcours", navContact: "Contact",
         heroQuote: "« On ne construit pas son parcours en avançant en ligne droite, mais en explorant, en essayant, en recommençant. »",
-        btnCV: "Visualiser mon CV", btnCVShort: "Voir mon CV",
+        btnCV: "Visualiser mon CV", btnCVShort: "Voir mon CV", btnReadMore: "En savoir plus",
         aboutTitle: "L'informatique, <br><span class='accent-text'>une évidence.</span>",
         aboutP1: "J'ai toujours eu une attache particulière avec l'informatique et la tech en général. Étant fils d'informaticien, j'ai toujours été baigné dans cet environnement numérique.",
         aboutP2: "Ce portfolio reflète ce mouvement : celui d'un esprit qui cherche à comprendre, à créer et à s'améliorer continuellement.",
@@ -14,19 +14,23 @@ const translations = {
         skillsTitle: "Compétences", skillsDesc: "* Les jauges représentent mon affinité et ma passion pour ces technologies.",
         skillDevTitle: "Développement & Algorithmique", skillCpp: "C++ (POO) ⭐ Favori", skillAlgo: "Algorithmique & Logique", skillSysTitle: "Systèmes & Web", skillOS: "Architecture OS & Windows",
         projectsTitle1: "Réalisations", projectsTitle2: "& Projets", filterAll: "Tous", tagAlgo: "Algorithmique",
-        proj1Title: "SAE S1.01 | Gestion de Bibliothèque", proj1Desc: "Conception d'un système robuste de gestion d'inventaire. Focus sur l'optimisation des structures de données.",
-        proj2Title: "Vinted Tracker | Logiciel de Comptabilité", proj2Desc: "Conception en C++ (POO) d'un outil personnalisé pour le suivi des ventes en ligne. Automatisation du calcul des bénéfices.",
+        proj1Title: "SAE S1.01 | Gestion de Bibliothèque", 
+        proj1Desc: "Conception d'un système robuste de gestion d'inventaire. Focus sur l'optimisation des structures de données.",
+        proj1Details: "Dans le cadre de la SAE S1.01, j'ai eu l'opportunité de concevoir un système complet de gestion d'inventaire de bibliothèque en C++.\n\nCe projet m'a permis de mettre en pratique des concepts d'algorithmique avancée, notamment en optimisant les structures de données pour garantir des opérations de recherche et de tri fluides, même face à un grand volume de références.\n\nL'interface en console est pensée pour être intuitive, prouvant qu'un back-end solide peut s'accompagner d'une bonne expérience utilisateur.",
+        proj2Title: "Vinted Tracker | Logiciel de Comptabilité", 
+        proj2Desc: "Conception en C++ (POO) d'un outil personnalisé pour le suivi des ventes en ligne. Automatisation du calcul des bénéfices.",
+        proj2Details: "Vinted Tracker est un outil que j'ai développé en C++ en utilisant la Programmation Orientée Objet (POO).\n\nL'objectif était de répondre à un besoin réel : le suivi précis des ventes en ligne. Le logiciel permet d'automatiser le calcul des bénéfices nets, la gestion des frais de port et l'analyse des marges commerciales.\n\nCe projet montre ma capacité à analyser un besoin métier (Business Logic) et à le traduire en une architecture logicielle claire, modulaire et maintenable.",
         journeyTitle1: "Expériences", journeyTitle2: "& Parcours",
         exp1Date: "Cybersécurité", exp1Desc: "Stage de découverte au sein d'une école d'ingénieurs spécialisée dans les systèmes embarqués.",
         exp2Date: "Développement & Sys", exp2Desc: "Développement logiciel (Python, C++), administration système sous Linux (Bash) et web.",
-        exp3Date: "Analytique", exp3Desc: "Stage d'observation en Mathématiques. Découverte de l'application scientifique.",
+        exp3Date: "Analytique", exp3Desc: "Stage d'observation en Mathématiques. Découverte de problèmes scientifique.",
         contactTitle: "Envie de collaborer ?"
     },
     en: {
         heroRoles: ["C++ Developer", "Solutions Designer", "System Administrator", "Web Creator", "Algorithm Enthusiast"],
         navAccueil: "Home", navApropos: "About", navCompetences: "Skills", navProjets: "Projects", navParcours: "Journey", navContact: "Contact",
         heroQuote: "« You don't build your path by walking a straight line, but by exploring, trying, and starting over. »",
-        btnCV: "View Resume", btnCVShort: "View Resume",
+        btnCV: "View Resume", btnCVShort: "View Resume", btnReadMore: "Read more",
         aboutTitle: "Computer Science, <br><span class='accent-text'>an obvious choice.</span>",
         aboutP1: "I have always had a special connection with IT and tech in general. Being the son of an IT specialist, I was always immersed in this digital environment.",
         aboutP2: "This portfolio reflects this movement: a mind seeking to understand, create, and continuously improve.",
@@ -36,8 +40,12 @@ const translations = {
         skillsTitle: "Skills", skillsDesc: "* The bars represent my affinity and passion for these technologies.",
         skillDevTitle: "Development & Algorithms", skillCpp: "C++ (OOP) ⭐ Favorite", skillAlgo: "Algorithms & Logic", skillSysTitle: "Systems & Web", skillOS: "OS Architecture & Windows",
         projectsTitle1: "My", projectsTitle2: "Projects", filterAll: "All", tagAlgo: "Algorithms",
-        proj1Title: "SAE S1.01 | Library Management", proj1Desc: "Design of a robust inventory system. Focus on data structures optimization.",
-        proj2Title: "Vinted Tracker | Accounting Software", proj2Desc: "Custom tool for online sales tracking. Automation of net profit calculations.",
+        proj1Title: "SAE S1.01 | Library Management", 
+        proj1Desc: "Design of a robust inventory system. Focus on data structures optimization.",
+        proj1Details: "For the SAE S1.01 project, I designed a complete library inventory management system in C++.\n\nThis project allowed me to apply advanced algorithm concepts, specifically optimizing data structures to ensure smooth search and sorting operations, even with a large volume of references.\n\nThe console interface was designed to be intuitive, proving that a solid back-end can be paired with a good user experience.",
+        proj2Title: "Vinted Tracker | Accounting Software", 
+        proj2Desc: "Custom tool for online sales tracking. Automation of net profit calculations.",
+        proj2Details: "Vinted Tracker is a tool I developed in C++ using Object-Oriented Programming (OOP).\n\nThe goal was to meet a real need: tracking online sales accurately. The software automates the calculation of net profits, shipping costs management, and commercial margin analysis.\n\nThis project demonstrates my ability to analyze a business need and translate it into a clear, modular, and maintainable software architecture.",
         journeyTitle1: "My", journeyTitle2: "Journey",
         exp1Date: "Cybersecurity", exp1Desc: "Discovery internship in an engineering school specializing in embedded systems.",
         exp2Date: "Dev & Sys Admin", exp2Desc: "Software development (Python, C++), system administration on Linux and web.",
@@ -48,7 +56,7 @@ const translations = {
         heroRoles: ["Desarrollador C++", "Diseñador de Soluciones", "Administrador de Sistemas", "Creador Web", "Apasionado por Algoritmos"],
         navAccueil: "Inicio", navApropos: "Sobre mí", navCompetences: "Habilidades", navProjets: "Proyectos", navParcours: "Trayectoria", navContact: "Contacto",
         heroQuote: "« No construyes tu camino avanzando en línea recta, sino explorando, intentando y volviendo a empezar. »",
-        btnCV: "Ver mi CV", btnCVShort: "Ver mi CV",
+        btnCV: "Ver mi CV", btnCVShort: "Ver mi CV", btnReadMore: "Saber más",
         aboutTitle: "La informática, <br><span class='accent-text'>una evidencia.</span>",
         aboutP1: "Siempre he tenido un vínculo especial con la informática y la tecnología. Siendo hijo de un informático, siempre estuve inmerso en este entorno digital.",
         aboutP2: "Este portafolio refleja este movimiento: una mente que busca entender, crear y mejorar continuamente.",
@@ -58,8 +66,12 @@ const translations = {
         skillsTitle: "Habilidades", skillsDesc: "* Las barras representan mi afinidad y pasión por estas tecnologías.",
         skillDevTitle: "Desarrollo y Algoritmos", skillCpp: "C++ (POO) ⭐ Favorito", skillAlgo: "Algoritmos y Lógica", skillSysTitle: "Sistemas y Web", skillOS: "Arquitectura SO y Windows",
         projectsTitle1: "Mis", projectsTitle2: "Proyectos", filterAll: "Todos", tagAlgo: "Algoritmos",
-        proj1Title: "SAE S1.01 | Gestión de Biblioteca", proj1Desc: "Diseño de un sistema robusto de gestión de inventario. Enfoque en la optimización de datos.",
-        proj2Title: "Vinted Tracker | Software de Contabilidad", proj2Desc: "Herramienta personalizada para el seguimiento de ventas. Automatización del cálculo de beneficios.",
+        proj1Title: "SAE S1.01 | Gestión de Biblioteca", 
+        proj1Desc: "Diseño de un sistema robusto de gestión de inventario. Enfoque en la optimización de datos.",
+        proj1Details: "En el marco de la SAE S1.01, diseñé un sistema completo de gestión de inventario de biblioteca en C++.\n\nEste proyecto me permitió aplicar conceptos algorítmicos avanzados, optimizando estructuras de datos para garantizar búsquedas y clasificaciones fluidas, incluso con grandes volúmenes de datos.",
+        proj2Title: "Vinted Tracker | Software de Contabilidad", 
+        proj2Desc: "Herramienta personalizada para el seguimiento de ventas. Automatización del cálculo de beneficios.",
+        proj2Details: "Vinted Tracker es una herramienta que desarrollé en C++ utilizando Programación Orientada a Objetos (POO).\n\nEl objetivo era satisfacer una necesidad real: el seguimiento preciso de las ventas en línea. El software automatiza el cálculo de beneficios netos, gestión de envíos y análisis de márgenes.",
         journeyTitle1: "Mi", journeyTitle2: "Trayectoria",
         exp1Date: "Ciberseguridad", exp1Desc: "Práctica de descubrimiento en una escuela de ingeniería especializada en sistemas integrados.",
         exp2Date: "Desarrollo y Sistemas", exp2Desc: "Desarrollo de software (Python, C++), administración de sistemas Linux (Bash) y web.",
@@ -70,7 +82,7 @@ const translations = {
         heroRoles: ["C++ 开发者", "解决方案设计师", "系统管理员", "Web 创造者", "算法爱好者"],
         navAccueil: "首页", navApropos: "关于", navCompetences: "技能", navProjets: "项目", navParcours: "经历", navContact: "联系",
         heroQuote: "« 成功之路并非直线，而是在探索、尝试和重新开始中走出来的。 »",
-        btnCV: "查看我的简历", btnCVShort: "查看简历",
+        btnCV: "查看我的简历", btnCVShort: "查看简历", btnReadMore: "了解更多",
         aboutTitle: "计算机科学, <br><span class='accent-text'>我必然的选择。</span>",
         aboutP1: "我一直对IT和科技有着特殊的感情。作为IT专家的儿子，我总是沉浸在这个数字环境中。",
         aboutP2: "这个作品集反映了这种追求：一个不断寻求理解、创造和持续改进的头脑。",
@@ -80,8 +92,12 @@ const translations = {
         skillsTitle: "技能", skillsDesc: "* 下方的进度条代表我对这些技术的亲和力和热情。",
         skillDevTitle: "开发与算法", skillCpp: "C++ (OOP) ⭐ 最爱", skillAlgo: "算法与逻辑", skillSysTitle: "系统与Web", skillOS: "操作系统架构与Windows",
         projectsTitle1: "我的", projectsTitle2: "项目", filterAll: "全部", tagAlgo: "算法",
-        proj1Title: "SAE S1.01 | 图书馆管理", proj1Desc: "设计一个强大的库存管理系统。专注于优化数据结构。",
-        proj2Title: "Vinted Tracker | 财务软件", proj2Desc: "使用C++设计的自定义在线销售跟踪工具。自动计算利润。",
+        proj1Title: "SAE S1.01 | 图书馆管理", 
+        proj1Desc: "设计一个强大的库存管理系统。专注于优化数据结构。",
+        proj1Details: "作为SAE S1.01的一部分，我使用C++设计了一个完整的图书馆库存管理系统。\n\n该项目让我能够应用高级算法概念，特别是优化数据结构以保证搜索和排序操作的流畅性，即使面对大量数据也是如此。",
+        proj2Title: "Vinted Tracker | 财务软件", 
+        proj2Desc: "使用C++设计的自定义在线销售跟踪工具。自动计算利润。",
+        proj2Details: "Vinted Tracker 是我使用面向对象编程 (OOP) 开发的C++工具。\n\n目标是满足实际需求：准确跟踪在线销售。该软件可自动计算净利润，管理运输成本以及分析商业利润率。",
         journeyTitle1: "我的", journeyTitle2: "经历",
         exp1Date: "网络安全", exp1Desc: "工程学校实习，专注于嵌入式系统和网络保护。",
         exp2Date: "开发与系统", exp2Desc: "软件开发 (Python, C++)，Linux系统管理与Web结构构建。",
@@ -106,11 +122,13 @@ window.changeLanguage = function(lang) {
     
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
+        // Ne traduit pas l'élément typewriter pour éviter les conflits avec l'animation
         if (element.id !== 'typewriter' && translations[lang] && translations[lang][key]) {
             element.innerHTML = translations[lang][key];
         }
     });
 
+    // Relance la machine à écrire depuis le début avec la nouvelle langue
     clearTimeout(currentTimeout);
     typeIndex = 0;
     charIndex = 0;
@@ -141,7 +159,7 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
-// --- 4. MODALS (PDF & TERMINAL) ---
+// --- 4. MODALS (PDF, TERMINAL & PROJETS) ---
 window.openModal = function(id) {
     document.getElementById(id).classList.add('active');
     if(id === 'terminal-modal') setTimeout(() => document.getElementById('terminal-input').focus(), 100);
@@ -157,6 +175,17 @@ window.toggleTerminal = function(forceOpen = false) {
     const term = document.getElementById('terminal-modal');
     if(forceOpen || !term.classList.contains('active')) openModal('terminal-modal');
     else closeModal(null, 'terminal-modal');
+};
+
+// Fonction pour ouvrir les détails d'un projet spécifique
+window.openProjectModal = function(projectId) {
+    const titleKey = projectId + 'Title';
+    const detailsKey = projectId + 'Details';
+    
+    document.getElementById('project-modal-title').innerHTML = translations[currentLang][titleKey];
+    document.getElementById('project-modal-desc').innerHTML = translations[currentLang][detailsKey];
+    
+    openModal('project-modal');
 };
 
 // --- LOGIQUE DU TERMINAL ---
@@ -245,17 +274,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const posX = e.clientX; 
             const posY = e.clientY;
             
-            // On utilise la propriété CSS Transform sur left/top de base à 0, 
-            // c'est ce qui permet un centrage au pixel près sans lag.
-            cursorDot.style.transform = `translate(calc(${posX}px - 50%), calc(${posY}px - 50%))`;
-            
-            cursorOutline.animate({ 
-                transform: `translate(calc(${posX}px - 50%), calc(${posY}px - 50%))` 
-            }, { duration: 500, fill: "forwards" });
-            
-            mouseGlow.animate({ 
-                transform: `translate(calc(${posX}px - 50%), calc(${posY}px - 50%))` 
-            }, { duration: 3000, fill: "forwards" });
+            cursorDot.style.transform = `translate3d(${posX}px, ${posY}px, 0) translate(-50%, -50%)`;
+            cursorOutline.animate({ transform: `translate3d(${posX}px, ${posY}px, 0) translate(-50%, -50%)` }, { duration: 400, fill: "forwards" });
+            mouseGlow.animate({ transform: `translate3d(${posX}px, ${posY}px, 0) translate(-50%, -50%)` }, { duration: 3000, fill: "forwards" });
         });
         
         // Effet de survol sur les éléments cliquables
