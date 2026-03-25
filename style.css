@@ -111,7 +111,7 @@ body { background-color: var(--bg-color); color: var(--text-main); overflow-x: h
 } 
 
 /* === EFFET PARALLAXE TEXTE === */
-.parallax-bg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 15vw; font-weight: 900; color: rgba(255,255,255,0.02); white-space: nowrap; z-index: -1; user-select: none; }
+.parallax-bg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 9vw; font-weight: 900; color: rgba(255,255,255,0.03); white-space: nowrap; z-index: -1; user-select: none; letter-spacing: 0.5rem;}
 
 /* === BOUTONS === */
 .cta-button { display: inline-block; margin-top: 2rem; padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600; color: var(--bg-color); background-color: var(--accent); border: none; border-radius: 50px; transition: all 0.3s ease; box-shadow: 0 0 20px var(--accent-dark); cursor: none;}
