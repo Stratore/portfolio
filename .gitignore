@@ -1,0 +1,44 @@
+# === Dépendances / builds ===
+node_modules/
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+
+# === Variables d'environnement / secrets ===
+# Jamais de clé, mot de passe ou token dans le dépôt.
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.p12
+*credentials*
+*secret*
+
+# === Logs ===
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# === Outils / config locale (chemins propres à cette machine) ===
+.claude/
+
+# === Résidus de compilation LaTeX (cv-latex/) ===
+cv-latex/*.aux
+cv-latex/*.log
+cv-latex/*.out
+cv-latex/*.toc
+cv-latex/*.synctex.gz
+cv-latex/*.fls
+cv-latex/*.fdb_latexmk
+
+# === Fichiers système / éditeur ===
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.vscode/
+.idea/

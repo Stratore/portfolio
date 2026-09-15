@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr" data-mode="dark" data-accent="steel">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pierre Puget | Développement & Systèmes</title>
+    <meta name="description" content="Portfolio de Pierre Puget, étudiant en BUT Informatique — développement C++/POO, systèmes Linux, web, sensibilisé aux enjeux de cybersécurité.">
+    <script>
+        (function () {
+            var m = localStorage.getItem('pp-mode');
+            var a = localStorage.getItem('pp-accent');
+            if (m) document.documentElement.setAttribute('data-mode', m);
+            if (a) document.documentElement.setAttribute('data-accent', a);
+        })();
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="scroll-progress-bar" id="scrollBar"></div>
+
+    <header class="site-header">
+        <a href="#" class="brand" data-slide="0">PP<span class="brand-dot">.</span></a>
+
+        <nav class="main-nav" id="mainNav">
+            <ul>
+                <li><a href="#" data-slide="1"><span class="idx">01</span><span data-i18n="navProfil">Profil</span></a></li>
+                <li><a href="#" data-slide="2"><span class="idx">02</span><span data-i18n="navCompetences">Compétences</span></a></li>
+                <li><a href="#" data-slide="3"><span class="idx">03</span><span data-i18n="navProjets">Projets</span></a></li>
+                <li><a href="#" data-slide="4"><span class="idx">04</span><span data-i18n="navParcours">Parcours</span></a></li>
+                <li><a href="#" data-slide="5"><span class="idx">05</span><span data-i18n="navContact">Contact</span></a></li>
+            </ul>
+        </nav>
+
+        <div class="header-controls">
+            <div class="lang-switcher">
+                <button data-lang="fr" class="lang-btn active">FR</button>
+                <button data-lang="en" class="lang-btn">EN</button>
+            </div>
+            <div class="accent-switcher">
+                <button class="accent-dot active" data-accent="steel" title="Bleu acier"></button>
+                <button class="accent-dot" data-accent="amber" title="Ambre technique"></button>
+                <button class="accent-dot" data-accent="red" title="Rouge sobre"></button>
+            </div>
+            <button class="mode-toggle" id="modeToggle" title="Changer de mode d'affichage">
+                <span class="mode-icon-dark">●</span><span class="mode-icon-light">○</span>
+            </button>
+            <button class="nav-burger" id="navBurger" aria-label="Menu">≡</button>
+        </div>
+    </header>
+
+    <main>
+        <button class="slide-arrow prev" id="slidePrev" aria-label="Écran précédent">‹</button>
+        <button class="slide-arrow next" id="slideNext" aria-label="Écran suivant">›</button>
+
+        <div class="slides-track" id="slidesTrack">
+
+            <section id="hero" class="slide hero-slide">
+                <div class="hero-grid-bg" aria-hidden="true"></div>
+                <div class="hero-inner reveal">
+                    <p class="eyebrow mono" data-i18n="eyebrow">DOSSIER TECHNIQUE</p>
+                    <h1>Pierre <span class="accent-text">Puget</span></h1>
+                    <p class="role-line mono"><span id="typewriter"></span><span class="cursor-blink">_</span></p>
+                    <p class="hero-lead" data-i18n="heroLead">« On ne construit pas son parcours en avançant en ligne droite, mais en explorant, en essayant, en recommençant. »</p>
+
+                    <div class="hero-actions">
+                        <button onclick="openModal('pdf-modal')" class="btn-primary" data-i18n="btnCV">Consulter le CV</button>
+                        <a href="#" class="btn-ghost" data-slide="5" data-i18n="btnContact">Me contacter</a>
+                    </div>
+
+                    <div class="hero-meta">
+                        <span data-i18n="metaFormation">BUT Informatique — IUT d'Arles</span>
+                        <span class="dot-sep">·</span>
+                        <span data-i18n="metaLocation">Arles, France</span>
+                    </div>
+
+                    <p class="hero-hint mono reveal delay-1" data-i18n="heroHint">→ Naviguez avec les flèches, le clavier ou en glissant</p>
+                </div>
+            </section>
+
+            <section id="profil" class="slide">
+                <div class="slide-inner">
+                    <div class="section-head reveal">
+                        <span class="section-index mono">01</span>
+                        <h2 data-i18n="profilTitle">Profil</h2>
+                    </div>
+                    <div class="profil-grid">
+                        <div class="profil-text reveal">
+                            <p data-i18n="aboutP1">J'ai toujours eu une attache particulière avec l'informatique et la tech en général. Étant fils d'informaticien, j'ai toujours été baigné dans cet environnement numérique.</p>
+                            <p data-i18n="aboutP2">Ce portfolio reflète ce mouvement : celui d'un esprit qui cherche à comprendre, à créer et à s'améliorer continuellement.</p>
+                            <div class="tags-row">
+                                <span data-i18n="tagTeam">#EspritÉquipe</span>
+                                <span data-i18n="tagClient">#RelationClient</span>
+                                <span data-i18n="tagCuriosity">#Curiosité</span>
+                            </div>
+                        </div>
+                        <aside class="profil-card reveal delay-1">
+                            <span class="status-badge mono" data-i18n="eduTag">EN COURS — 2025/2026</span>
+                            <h3>BUT Informatique</h3>
+                            <p class="text-muted">Aix-Marseille Université — IUT d'Arles</p>
+                            <p class="mt-1" data-i18n="eduDesc">Formation technique approfondie axée sur le développement de logiciels, la conception orientée objet (C++), l'administration système et la gestion de bases de données.</p>
+                            <a href="https://iut.univ-amu.fr/fr/sites-geographiques/arles" target="_blank" rel="noopener" class="link-btn mt-1" data-i18n="eduLink">Découvrir l'établissement →</a>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+
+            <section id="competences" class="slide">
+                <div class="slide-inner">
+                    <div class="section-head reveal">
+                        <span class="section-index mono">02</span>
+                        <h2 data-i18n="skillsTitle">Compétences</h2>
+                    </div>
+                    <p class="section-lead reveal" data-i18n="skillsDesc">Niveaux estimés selon ma pratique et mon implication sur chaque technologie.</p>
+
+                    <div class="skills-grid">
+                        <div class="skills-block reveal">
+                            <h3 data-i18n="skillDevTitle">Développement & Algorithmique</h3>
+                            <div class="skill-row">
+                                <div class="skill-label"><span data-i18n="skillCpp">C++ (POO)</span><span class="skill-level mono"></span></div>
+                                <div class="level-meter" data-level="5"><span></span><span></span><span></span><span></span><span></span></div>
+                            </div>
+                            <div class="skill-row">
+                                <div class="skill-label"><span>Python</span><span class="skill-level mono"></span></div>
+                                <div class="level-meter" data-level="3"><span></span><span></span><span></span><span></span><span></span></div>
+                            </div>
+                            <div class="skill-row">
+                                <div class="skill-label"><span data-i18n="skillAlgo">Algorithmique & Logique</span><span class="skill-level mono"></span></div>
+                                <div class="level-meter" data-level="4"><span></span><span></span><span></span><span></span><span></span></div>
+                            </div>
+                        </div>
+
+                        <div class="skills-block reveal delay-1">
+                            <h3 data-i18n="skillSysTitle">Systèmes & Web</h3>
+                            <div class="skill-row">
+                                <div class="skill-label"><span>Linux / Bash</span><span class="skill-level mono"></span></div>
+                                <div class="level-meter" data-level="3"><span></span><span></span><span></span><span></span><span></span></div>
+                            </div>
+                            <div class="skill-row">
+                                <div class="skill-label"><span data-i18n="skillOS">Architecture OS & Windows</span><span class="skill-level mono"></span></div>
+                                <div class="level-meter" data-level="4"><span></span><span></span><span></span><span></span><span></span></div>
+                            </div>
+                            <div class="skill-row">
+                                <div class="skill-label"><span>HTML5 / CSS3 / SQL</span><span class="skill-level mono"></span></div>
+                                <div class="level-meter" data-level="4"><span></span><span></span><span></span><span></span><span></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="projets" class="slide">
+                <div class="slide-inner">
+                    <div class="section-head reveal">
+                        <span class="section-index mono">03</span>
+                        <h2 data-i18n="projectsTitle">Projets</h2>
+                    </div>
+
+                    <div class="filter-container reveal">
+                        <button class="filter-btn active" data-filter="all" data-i18n="filterAll">Tous</button>
+                        <button class="filter-btn" data-filter="cpp">C++</button>
+                        <button class="filter-btn" data-filter="algo" data-i18n="tagAlgo">Algorithmique</button>
+                    </div>
+
+                    <div class="projects-grid">
+                        <article class="project-card reveal" data-category="cpp algo">
+                            <div class="project-media">
+                                <img src="assets/projet-bibliotheque.jpg" alt="SAE Bibliothèque">
+                            </div>
+                            <div class="project-body">
+                                <div class="project-meta"><span>DOSSIER 01</span><span class="tag">C++</span><span class="tag" data-i18n="tagAlgo">Algorithmique</span></div>
+                                <h3 data-i18n="proj1Title">SAE S1.01 | Gestion de Bibliothèque</h3>
+                                <p data-i18n="proj1Desc">Conception d'un système robuste de gestion d'inventaire. Focus sur l'optimisation des structures de données.</p>
+                                <div class="project-links">
+                                    <a href="#" onclick="event.preventDefault(); openProjectModal('proj1')" data-i18n="btnReadMore">Consulter le dossier</a>
+                                    <a href="https://github.com/Stratore" target="_blank" rel="noopener" class="secondary" data-i18n="btnCode">Code source ↗</a>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="project-card reveal delay-1" data-category="cpp">
+                            <div class="project-media">
+                                <img src="assets/projet-vinted.jpg" alt="Vinted Tracker">
+                            </div>
+                            <div class="project-body">
+                                <div class="project-meta"><span>DOSSIER 02</span><span class="tag">C++</span><span class="tag">POO</span></div>
+                                <h3 data-i18n="proj2Title">Vinted Tracker | Logiciel de Comptabilité</h3>
+                                <p data-i18n="proj2Desc">Conception en C++ (POO) d'un outil personnalisé pour le suivi des ventes en ligne. Automatisation du calcul des bénéfices.</p>
+                                <div class="project-links">
+                                    <a href="#" onclick="event.preventDefault(); openProjectModal('proj2')" data-i18n="btnReadMore">Consulter le dossier</a>
+                                    <a href="https://github.com/Stratore" target="_blank" rel="noopener" class="secondary" data-i18n="btnCode">Code source ↗</a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section id="parcours" class="slide">
+                <div class="slide-inner">
+                    <div class="section-head reveal">
+                        <span class="section-index mono">04</span>
+                        <h2 data-i18n="journeyTitle">Parcours</h2>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item reveal">
+                            <div class="date mono" data-i18n="exp1Date">Cybersécurité</div>
+                            <h3>ESISAR (Valence)</h3>
+                            <p data-i18n="exp1Desc">Stage de découverte au sein d'une école d'ingénieurs spécialisée dans les systèmes embarqués.</p>
+                        </div>
+                        <div class="timeline-item reveal">
+                            <div class="date mono" data-i18n="exp2Date">Développement & Sys</div>
+                            <h3>BUT Informatique (IUT d'Arles)</h3>
+                            <p data-i18n="exp2Desc">Développement logiciel (Python, C++), administration système sous Linux (Bash) et web.</p>
+                        </div>
+                        <div class="timeline-item reveal">
+                            <div class="date mono" data-i18n="exp3Date">Analytique</div>
+                            <h3>Campus de Luminy (Marseille)</h3>
+                            <p data-i18n="exp3Desc">Stage d'observation en Mathématiques. Découverte de problèmes scientifique.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="slide">
+                <div class="slide-inner">
+                    <div class="contact-panel reveal">
+                        <div class="contact-head">
+                            <span class="section-index mono">05</span>
+                            <h2 data-i18n="contactTitle">Envie de collaborer ?</h2>
+                            <p data-i18n="contactLead">Ouvert aux opportunités de stage et d'alternance en développement logiciel ou systèmes.</p>
+                        </div>
+                        <div class="contact-grid">
+                            <a href="mailto:pierre.puget@etu.univ-amu.fr" class="contact-btn email">
+                                <span class="label">Email</span>
+                                <span class="value">pierre.puget@etu.univ-amu.fr</span>
+                            </a>
+                            <button onclick="openModal('pdf-modal')" class="contact-btn">
+                                <span class="label" data-i18n="labelCV">Curriculum Vitae</span>
+                                <span class="value accent-text" data-i18n="btnCVShort">Voir mon CV</span>
+                            </button>
+                            <a href="https://www.linkedin.com/in/pierre-puget-54b427366/" target="_blank" rel="noopener" class="contact-btn">
+                                <span class="label">LinkedIn</span>
+                                <span class="value">Pierre Puget</span>
+                            </a>
+                        </div>
+                    </div>
+                    <footer class="site-footer">
+                        <span>© 2026 Pierre Puget</span>
+                        <a href="https://github.com/Stratore" target="_blank" rel="noopener">GitHub ↗</a>
+                    </footer>
+                </div>
+            </section>
+
+        </div>
+
+        <nav class="slide-dots" id="slideDots">
+            <button class="slide-dot active" data-slide="0" title="Accueil"></button>
+            <button class="slide-dot" data-slide="1" title="Profil"></button>
+            <button class="slide-dot" data-slide="2" title="Compétences"></button>
+            <button class="slide-dot" data-slide="3" title="Projets"></button>
+            <button class="slide-dot" data-slide="4" title="Parcours"></button>
+            <button class="slide-dot" data-slide="5" title="Contact"></button>
+        </nav>
+    </main>
+
+    <div id="pdf-modal" class="modal-overlay" onclick="closeModal(event, 'pdf-modal')">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal(null, 'pdf-modal')">×</button>
+            <iframe src="CV_PUGET_Pierre.pdf" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <div id="project-modal" class="modal-overlay" onclick="closeModal(event, 'project-modal')">
+        <div class="modal-content project-modal-content">
+            <button class="close-btn" onclick="closeModal(null, 'project-modal')">×</button>
+            <div class="project-modal-body">
+                <h3 id="project-modal-title" class="accent-text">Titre</h3>
+                <p id="project-modal-desc">Description...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

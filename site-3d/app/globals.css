@@ -1,0 +1,284 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    --bg: #030407;
+    --text: #f2f6f8;
+    --text-muted: #9aa4ad;
+    --accent: #5ec8ff;
+    --glass-bg: rgba(10, 14, 20, 0.55);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --font-head: 'Space Grotesk', 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font-body); }
+h1, h2, h3 { font-family: var(--font-head); font-weight: 600; }
+a { color: var(--accent); }
+
+.glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 14px;
+}
+
+/* === SPLIT TEXT (révélation caractère par caractère) === */
+/* Inspiré de React Bits, réimplémenté en CSS pur — cf. components/SplitText.tsx */
+.split-text { display: inline-block; }
+.split-text__char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.4em);
+    animation: splitTextIn 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+@keyframes splitTextIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .split-text__char { animation: none; opacity: 1; transform: none; }
+}
+
+/* === MONDE 3D === */
+.world-canvas { position: fixed; inset: 0; z-index: 1; }
+.world-canvas canvas { display: block; }
+.world-loading {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted); font-size: 0.9rem; letter-spacing: 0.04em; z-index: 1;
+}
+
+/* === HUD === */
+.hud-top {
+    position: fixed; top: 20px; left: 20px; right: 20px; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.9rem 1.4rem;
+}
+.hud-brand { display: flex; flex-direction: column; gap: 2px; }
+.hud-brand__name { font-family: var(--font-head); font-weight: 700; font-size: 1.05rem; }
+.hud-brand__role { font-size: 0.72rem; color: var(--text-muted); }
+.hud-links { display: flex; gap: 1.4rem; align-items: center; }
+.hud-links a { font-size: 0.8rem; text-decoration: none; color: var(--text-muted); transition: color 0.2s; }
+.hud-links a:hover { color: var(--accent); }
+.hud-links__btn {
+    font-size: 0.8rem; color: var(--text-muted); background: none; border: none; cursor: pointer;
+    font-family: inherit; padding: 0; transition: color 0.2s;
+}
+.hud-links__btn:hover { color: var(--accent); }
+
+.hud-mute {
+    width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--glass-border);
+    background: transparent; color: var(--text); font-size: 0.85rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-left: 0.6rem;
+    transition: border-color 0.2s;
+}
+.hud-mute:hover { border-color: var(--accent); box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 45%, transparent); }
+
+.hud-legend {
+    position: fixed; bottom: 20px; left: 20px; z-index: 20;
+    display: flex; gap: 1rem; padding: 0.6rem 1rem; font-size: 0.72rem; color: var(--text-muted);
+}
+.hud-legend__item { display: flex; align-items: center; gap: 0.4rem; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.dot--projet { background: #5ec8ff; }
+.dot--techno { background: #8f7bff; }
+.dot--skill { background: #5be8a6; }
+
+.hud-hint {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 20;
+    padding: 0.55rem 1.1rem; font-size: 0.72rem; color: var(--text-muted); white-space: nowrap;
+}
+
+.hud-reset {
+    position: fixed; bottom: 178px; right: 20px; z-index: 20;
+    padding: 0.6rem 1.1rem; font-size: 0.78rem; color: var(--text); cursor: pointer;
+    transition: border-color 0.2s;
+}
+.hud-reset:hover { border-color: var(--accent); box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 40%, transparent); }
+
+/* === MINI-MAP (fast-travel, instrument de navigation) === */
+.minimap-wrap {
+    position: fixed; bottom: 20px; right: 20px; z-index: 25;
+    padding: 0.6rem; display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+    opacity: 0.55; transition: opacity 0.3s;
+}
+.minimap-wrap:hover { opacity: 1; }
+.minimap-label {
+    font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-muted);
+}
+.minimap-canvas { display: block; border-radius: 50%; cursor: pointer; }
+
+/* === PANNEAU D'INFO PROJET (glassmorphism) === */
+.info-panel {
+    position: fixed; top: 50%; right: 24px; transform: translateY(-50%); z-index: 30;
+    width: min(400px, 88vw); max-height: 82vh; overflow-y: auto;
+    padding: 2.2rem 2rem; display: flex; flex-direction: column; gap: 0.9rem;
+}
+.info-panel__image {
+    width: calc(100% + 4rem); margin: -2.2rem -2rem 0.4rem; display: block;
+    aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--glass-border);
+}
+.info-panel__close {
+    position: absolute; top: 14px; right: 16px; font-size: 1.6rem; color: var(--text-muted); cursor: pointer;
+    background: none; border: none;
+}
+.info-panel__close:hover { color: var(--text); }
+.info-panel__eyebrow { font-size: 0.72rem; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; }
+.info-panel__title { font-size: 1.6rem; }
+.info-panel__tagline { font-size: 0.9rem; color: var(--text-muted); }
+.info-panel__tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.info-panel__tag { padding: 0.3rem 0.7rem; border: 1px solid var(--glass-border); border-radius: 30px; font-size: 0.72rem; color: var(--accent); }
+.info-panel__description { font-size: 0.9rem; line-height: 1.7; color: var(--text-muted); white-space: pre-line; }
+.info-panel__actions { display: flex; gap: 1.2rem; margin-top: 0.4rem; }
+.info-panel__link { font-size: 0.85rem; text-decoration: none; font-weight: 500; }
+.info-panel__link:hover { text-decoration: underline; }
+
+/* === VIGNETTE COMPÉTENCE / TECHNOLOGIE (ancrée en 3D) === */
+.skill-tag-portal {
+    position: fixed; inset: 0; z-index: 45; pointer-events: none;
+}
+.skill-tag {
+    min-width: 200px; max-width: 260px; padding: 1rem 1.1rem;
+    pointer-events: auto; text-align: left;
+}
+.skill-tag__label { font-family: var(--font-head); font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem; }
+.skill-tag__eyebrow { font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+.skill-tag__list { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+.skill-tag__list button {
+    background: none; border: none; padding: 0; color: var(--text); font-size: 0.82rem;
+    text-align: left; cursor: pointer; text-decoration: underline; text-decoration-color: transparent;
+    transition: text-decoration-color 0.2s, color 0.2s; font-family: inherit;
+}
+.skill-tag__list button:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.skill-tag__empty { font-size: 0.78rem; color: var(--text-muted); }
+
+/* === PANNEAU TERMINAL (CV / Contact) === */
+/* Verre dépoli + monospace rigide, dans le même langage visuel que le HUD/
+   InfoPanel (pas une 3e esthétique) — centré par flexbox, donc rigoureusement
+   au centre de l'écran quelle que soit la résolution. */
+.term-overlay {
+    position: fixed; inset: 0; z-index: 110; display: flex; align-items: center; justify-content: center;
+    padding: 4vh 4vw; background: rgba(3, 4, 7, 0.72);
+}
+.term-panel {
+    width: 640px; max-width: 100%; max-height: 86vh; overflow: hidden;
+    display: flex; flex-direction: column; border-radius: 6px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+.term-bar {
+    display: flex; align-items: center; gap: 0.9rem; padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--glass-border); flex-shrink: 0;
+}
+.term-bar__dots { display: flex; gap: 6px; }
+.term-bar__dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--glass-border); }
+.term-bar__path { font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-muted); flex: 1; }
+.term-bar__close {
+    font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); background: none; border: none;
+    cursor: pointer; transition: color 0.2s;
+}
+.term-bar__close:hover { color: var(--accent); }
+
+.term-body { padding: 1.6rem 1.8rem 2.2rem; overflow-y: auto; font-family: var(--font-mono); }
+
+.term-prompt { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.2rem; }
+.term-prompt__sigil { color: var(--accent); margin-right: 0.5em; }
+
+.term-name { font-size: 1.5rem; font-weight: 500; margin-bottom: 0.7rem; }
+.term-tagline { font-size: 0.86rem; color: var(--text-muted); line-height: 1.8; max-width: 62ch; }
+
+.term-section {
+    font-size: 0.76rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em;
+    margin: 2.2rem 0 1rem; padding-top: 1.2rem; border-top: 1px solid var(--glass-border);
+}
+.term-section:first-of-type { border-top: none; }
+
+.term-row { padding: 0.8rem 0; border-top: 1px solid var(--glass-border); }
+.term-row:first-of-type { border-top: none; padding-top: 0; }
+.term-row__meta { font-size: 0.68rem; color: var(--text-muted); opacity: 0.75; margin-bottom: 0.3rem; }
+.term-row__key { font-size: 0.86rem; color: var(--text); font-weight: 500; }
+.term-row__val { font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; max-width: 58ch; margin-top: 0.25rem; }
+
+.term-array { font-size: 0.78rem; color: var(--text-muted); line-height: 1.9; word-break: break-word; }
+
+.term-cmd {
+    position: relative; display: block; width: fit-content; font-family: var(--font-mono); font-size: 0.82rem;
+    color: var(--text); background: none; border: none; cursor: pointer; text-align: left; text-decoration: none;
+    padding: 0.5rem 0; transition: color 0.2s;
+}
+.term-cmd::after {
+    content: ""; position: absolute; left: 0; bottom: 0.3rem; width: 0; height: 1px;
+    background: var(--accent); box-shadow: 0 0 6px var(--accent);
+    transition: width 0.25s ease;
+}
+.term-cmd:hover { color: var(--accent); }
+.term-cmd:hover::after { width: 100%; }
+.term-cmd-list { margin-top: 0.5rem; }
+a.term-cmd { margin-top: 2rem; }
+
+.term-eof { margin-top: 2.4rem; font-size: 0.68rem; color: var(--text-muted); opacity: 0.6; text-align: center; }
+
+@media (max-width: 720px) {
+    .term-panel { max-height: 90vh; }
+    .term-body { padding: 1.3rem 1.2rem 1.8rem; }
+}
+
+/* === VUE CLASSIQUE (fallback 2D + accessibilité) === */
+/* Bascule volontairement visible, dans le même langage visuel que le HUD
+   (verre dépoli, mono, sigil terminal "$" comme dans TerminalPanel) — placée
+   sous la barre du HUD plutôt que superposée dessus pour ne jamais recouvrir
+   les liens Email/CV ni le bouton son. */
+.text-mode-toggle {
+    position: fixed; top: 96px; right: 20px; z-index: 40;
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.55rem 1rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text); cursor: pointer;
+    border-color: color-mix(in srgb, var(--accent) 30%, var(--glass-border));
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.text-mode-toggle__sigil { color: var(--accent); }
+.text-mode-toggle:hover { border-color: var(--accent); box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 40%, transparent); }
+
+.fallback-2d-wrap { position: fixed; inset: 0; z-index: 10; overflow-y: auto; background: var(--bg); }
+.fallback-2d-wrap--hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+.fallback-2d { max-width: 720px; margin: 0 auto; padding: 6rem 6% 4rem; line-height: 1.7; }
+.fallback-2d__eyebrow {
+    font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1rem;
+}
+.fallback-2d h1 { font-size: 2.4rem; margin-bottom: 0.4rem; }
+.fallback-2d__role { color: var(--accent); margin-bottom: 1.4rem; }
+.fallback-2d__intro { color: var(--text-muted); }
+.fallback-2d h2 {
+    margin: 2.4rem 0 1rem; padding-top: 1.2rem; font-family: var(--font-mono); font-size: 0.76rem;
+    font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent);
+    border-top: 1px solid var(--glass-border);
+}
+.fallback-2d ul { padding-left: 1.2rem; color: var(--text-muted); }
+.fallback-2d li { margin-bottom: 0.6rem; }
+.fallback-2d li strong { color: var(--text); font-family: var(--font-head); }
+.fallback-2d__projects { list-style: none; padding-left: 0; }
+.fallback-2d__projects > li { margin-bottom: 1.8rem; }
+.fallback-2d__tagline { color: var(--text-muted); }
+.fallback-2d__desc { margin: 0.4rem 0 0.6rem; color: var(--text-muted); }
+.fallback-2d__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.5rem; }
+.fallback-2d__tag {
+    padding: 0.25rem 0.6rem; border: 1px solid var(--glass-border); border-radius: 30px;
+    font-size: 0.7rem; color: var(--accent);
+}
+
+@media (max-width: 720px) {
+    .text-mode-toggle { top: 176px; right: 20px; }
+}
+
+@media (max-width: 720px) {
+    .hud-top { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+    .hud-links { flex-wrap: wrap; gap: 0.9rem; }
+    .hud-hint { display: none; }
+    .info-panel { right: 12px; left: 12px; width: auto; top: auto; bottom: 12px; transform: none; max-height: 60vh; }
+    .minimap-wrap { transform: scale(0.75); transform-origin: bottom right; right: 8px; bottom: 8px; }
+    .hud-reset { bottom: 128px; }
+}

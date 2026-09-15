@@ -1,0 +1,148 @@
+% ============================================================
+% CV — Pierre PUGET (sans photo)
+% Compilation : pdflatex CV_Puget_Pierre.tex
+% Packages standards uniquement — aucun fichier externe requis.
+% ============================================================
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[a4paper, top=1.6cm, bottom=1.6cm, left=1.9cm, right=1.9cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{ragged2e}
+\usepackage{array}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+% --- Palette (sobre : encre + un seul accent) ---
+\definecolor{ink}{HTML}{1A1A1A}
+\definecolor{muted}{HTML}{5B5B5B}
+\definecolor{accent}{HTML}{2E5266}
+\definecolor{rule}{HTML}{D8D8D8}
+
+\color{ink}
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+% --- Titres de section ---
+\titleformat{\section}
+    {\normalfont\large\bfseries\color{accent}}
+    {}{0pt}{}
+    [\vspace{2pt}{\color{rule}\titlerule[0.8pt]}]
+\titlespacing*{\section}{0pt}{14pt}{8pt}
+
+% --- Entrée générique (diplôme / expérience) ---
+% #1 titre   #2 dates   #3 lieu   #4 description (peut être vide)
+\newcommand{\cventry}[4]{%
+    \noindent\begin{tabular*}{\linewidth}{@{}l@{\extracolsep{\fill}}r@{}}
+        \textbf{#1} & {\small\color{muted}#2}\\
+    \end{tabular*}\par
+    {\small\color{accent}#3}\par
+    \ifx&#4&%
+    \else
+        \vspace{2pt}{\small\color{ink}#4}\par
+    \fi
+    \vspace{7pt}
+}
+
+% --- Ligne de contact (icônes texte, aucune police externe) ---
+\newcommand{\cvcontact}[2]{%
+    \textbf{#1}~#2
+}
+
+\begin{document}
+
+% ============================================================
+% EN-TÊTE
+% ============================================================
+\begin{center}
+    {\Huge\bfseries Pierre Puget}\\[4pt]
+    {\large\color{muted}Étudiant en BUT Informatique --- Développement \& Systèmes}\\[8pt]
+    {\small
+        \cvcontact{Email~:}{\href{mailto:pugetpierre07@gmail.com}{pugetpierre07@gmail.com}}
+        \quad\textcolor{rule}{|}\quad
+        \cvcontact{Tél.~:}{06~68~35~09~17}
+        \quad\textcolor{rule}{|}\quad
+        \cvcontact{Adresse~:}{55 route de Crau, 13200 Arles}
+        \quad\textcolor{rule}{|}\quad
+        \cvcontact{Permis~:}{B}
+    }
+\end{center}
+\vspace{4pt}
+{\color{rule}\hrule height 0.8pt}
+\vspace{10pt}
+
+\RaggedRight
+Actuellement en première année de BUT Informatique à l'IUT d'Arles, ce premier semestre a confirmé mon attrait pour les aspects techniques et la logique algorithmique. Passionné par ces enjeux, je souhaite orienter mon parcours vers la cybersécurité.
+
+% ============================================================
+% DEUX COLONNES : contenu principal (gauche) / profil complémentaire (droite)
+% ============================================================
+\begin{minipage}[t]{0.63\textwidth}
+
+\section*{Compétences informatiques}
+\textbf{Développement et Algorithmique}\par
+{\small\color{muted}Apprentissage de la logique de programmation et des algorithmes via les langages Python et C++.\par}
+\vspace{5pt}
+\textbf{Web et Données}\par
+{\small\color{muted}Bases de l'intégration web (HTML, CSS) et initiation à la gestion de bases de données (SQL).\par}
+\vspace{5pt}
+\textbf{Systèmes et Environnements}\par
+{\small\color{muted}Maîtrise des bases de l'administration système (Linux/Bash, Windows). Compréhension de l'architecture des ordinateurs et des systèmes d'exploitation (OS).\par}
+
+\section*{Diplômes et Formations}
+
+\cventry{Baccalauréat}{De 2024 à 2025}{Lycée Louis Pasquet, Arles --- Mention Assez Bien}{}
+\cventry{BAFA}{2025}{IFAC, Nîmes}{}
+\cventry{PSC1}{2025}{La Croix Rouge, Arles}{}
+\cventry{Diplôme National du Brevet}{De 2018 à 2022}{Collège Vincent Van Gogh, Arles --- Mention Très Bien}{}
+
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.33\textwidth}
+
+\section*{Langues}
+\textbf{Anglais}\par
+{\small\color{muted}Niveau B2 (Intermédiaire avancé)}\par
+\vspace{6pt}
+\textbf{Espagnol}\par
+{\small\color{muted}Les bases (A2)}\par
+
+\section*{Atouts}
+\begin{itemize}[leftmargin=12pt, itemsep=3pt, topsep=2pt, label={\small\color{accent}\textbullet}]
+    \item \small Curiosité technique
+    \item \small Esprit logique et analytique
+    \item \small Rigueur
+    \item \small Bon relationnel
+    \item \small Sens de l'organisation
+    \item \small Esprit d'équipe
+\end{itemize}
+
+\section*{Centres d'intérêt}
+\begin{itemize}[leftmargin=12pt, itemsep=4pt, topsep=2pt, label={\small\color{accent}\textbullet}]
+    \item \small Jeux vidéo
+    \item \small Musique : guitare, piano
+    \item \small Sport : ceinture noire de karaté, MMA, musculation, rugby
+    \item \small Plongée : niveau 1
+\end{itemize}
+
+\end{minipage}
+
+% ============================================================
+% EXPÉRIENCES PROFESSIONNELLES (pleine largeur)
+% ============================================================
+\section*{Expériences professionnelles}
+
+\cventry{Cours de soutien scolaire}{De 2024 à 2026}{À domicile}{Je donne des cours de soutien scolaire à deux élèves. Je les aide à faire leurs devoirs et je leur propose des jeux ludiques, ce qui leur a permis de beaucoup s'améliorer.}
+
+\cventry{Animateur et Assistant Sanitaire}{Juillet 2025}{BAFA, Serre Chevalier}{Gestion d'un groupe de mineurs alliant conception d'activités ludiques et responsabilité du pôle sanitaire (soins, traitements, registre). Une mission menée avec succès grâce à une grande rigueur et un bon relationnel.}
+
+\cventry{Stage de mathématiques}{2024}{Campus de Luminy, Marseille}{Participation à un stage encadré par des doctorants, axé sur la résolution de problèmes techniques en mathématiques, dans un contexte de découverte de la recherche scientifique.}
+
+\cventry{Stage en entreprise}{2022}{ESISAR --- Grenoble INP, Valence}{Stage de troisième réalisé à l'ESISAR, école d'ingénieurs spécialisée, au cours duquel j'ai découvert les bases de l'informatique et de la cybersécurité à travers des échanges avec des étudiants et des professionnels du secteur.}
+
+\end{document}
