@@ -15,7 +15,7 @@ export const graphData: GraphData = {
                 description:
                     "Projet de gestion d'étudiants en C++, avec persistance des données via SQL. Détails à venir.",
                 tags: ["tech-cpp", "tech-sql"],
-                github: "https://github.com/Stratore",
+                github: "https://github.com/Stratore/Klass",
             },
         },
         {
@@ -26,9 +26,9 @@ export const graphData: GraphData = {
             project: {
                 tagline: "SAE S2.02 — GPS interactif en C++ / Qt",
                 description:
-                    "Application GPS développée en C++ avec l'interface graphique Qt, à partir de deux fichiers JSON fournis : les informations des 100 villes clés (population, coordonnées...) et les temps de trajet entre chaque paire de villes. L'application calcule automatiquement le chemin le plus court entre deux points et permet d'ajouter autant de villes intermédiaires que voulu. Un bandeau d'information affiche les données de la ville sélectionnée (population...), enrichies en direct par l'API Météo France (température, vent, lever du soleil...).",
+                    "Application GPS développée en C++ avec l'interface graphique Qt, à partir de deux fichiers CSV fournis : les informations des 100 villes clés (population, coordonnées...) et les temps de trajet entre chaque paire de villes. L'application calcule automatiquement le chemin le plus court entre deux points (algorithme de Floyd-Warshall) et permet d'ajouter autant de villes intermédiaires que voulu. Un bandeau d'information affiche les données de la ville sélectionnée (population...), enrichies en direct par l'API Météo France (température, vent, lever du soleil...), dont la réponse JSON est parsée en C++.",
                 tags: ["tech-cpp", "tech-qt", "tech-json", "skill-algo", "skill-api"],
-                github: "https://github.com/Stratore",
+                github: "https://github.com/Stratore/gps",
             },
         },
         {
@@ -39,9 +39,9 @@ export const graphData: GraphData = {
             project: {
                 tagline: "SAE S2.05 — Application de bureau C++ / Qt",
                 description:
-                    "Application de bureau conçue et développée de A à Z en C++ avec le framework Qt. Elle regroupe un système d'authentification à plusieurs niveaux de droits (utilisateur / administrateur), un module de facturation qui calcule les coûts, génère des statistiques globales et sauvegarde l'historique en fichiers texte, ainsi qu'un module de calcul d'itinéraire entre villes (parcours de graphes) couplé à l'affichage de données démographiques. L'application se connecte aussi à une API météo pour afficher le temps en direct des villes choisies. L'interface a été travaillée avec les feuilles de style Qt pour un rendu moderne et fluide.",
-                tags: ["tech-cpp", "tech-qt", "tech-json", "skill-algo", "skill-poo", "skill-api", "skill-ui"],
-                github: "https://github.com/Stratore",
+                    "Application de bureau conçue et développée en C++ avec le framework Qt. Elle regroupe un système d'authentification à plusieurs niveaux de droits (utilisateur / administrateur) et un module de facturation qui calcule les coûts, génère des statistiques globales et sauvegarde l'historique en fichiers texte. Un module de calcul d'itinéraire entre villes et de connexion à une API météo est prévu en complément.",
+                tags: ["tech-cpp", "tech-qt", "skill-poo", "skill-ui"],
+                github: "https://github.com/Stratore/Facture",
             },
         },
         {
@@ -90,10 +90,7 @@ export const graphData: GraphData = {
         { source: "proj-gps", target: "skill-api" },
         { source: "proj-dashboard", target: "tech-cpp" },
         { source: "proj-dashboard", target: "tech-qt" },
-        { source: "proj-dashboard", target: "tech-json" },
-        { source: "proj-dashboard", target: "skill-algo" },
         { source: "proj-dashboard", target: "skill-poo" },
-        { source: "proj-dashboard", target: "skill-api" },
         { source: "proj-dashboard", target: "skill-ui" },
         { source: "proj-tripleboot", target: "tech-linux" },
         { source: "proj-tripleboot", target: "tech-windows" },

@@ -7,6 +7,12 @@ export interface ProjectDetails {
     github?: string;
     demo?: string;
     image?: string;
+    /** Courte capture d'écran vidéo (mp4/webm) en boucle, muette — aperçu de
+     * l'app en action. Les projets sont des exécutables C++/Qt compilés,
+     * donc pas de vraie démo interactive possible dans le navigateur ; cette
+     * boucle vidéo est l'équivalent pratique. Prend le pas sur `image` si les
+     * deux sont fournis. */
+    video?: string;
 }
 
 export interface RawNode {

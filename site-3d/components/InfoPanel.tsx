@@ -19,8 +19,20 @@ export function InfoPanel() {
                 ×
             </button>
 
-            {project.image && (
-                <img className="info-panel__image" src={project.image} alt={selectedProject.label} />
+            {project.video ? (
+                <video
+                    className="info-panel__image"
+                    src={project.video}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    aria-label={`Aperçu vidéo — ${selectedProject.label}`}
+                />
+            ) : (
+                project.image && (
+                    <img className="info-panel__image" src={project.image} alt={selectedProject.label} />
+                )
             )}
 
             <p className="info-panel__eyebrow">Dossier — Projet</p>
