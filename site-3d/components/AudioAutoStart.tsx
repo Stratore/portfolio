@@ -13,7 +13,12 @@ import { audioEngine } from "@/lib/audio/generativeAudio";
 export function AudioAutoStart() {
     useEffect(() => {
         const start = () => {
-            audioEngine.start();
+            audioEngine.start().catch(() => {
+                // audioEngine.start() gère déjà ses propres erreurs en interne
+                // (cf. lib/audio/generativeAudio.ts) ; ce filet évite seulement
+                // un avertissement "unhandled promise rejection" dans la console
+                // si un cas imprévu remontait malgré tout.
+            });
             window.removeEventListener("pointerdown", start);
             window.removeEventListener("keydown", start);
             window.removeEventListener("wheel", start);

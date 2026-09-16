@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { graphData } from "@/data/graph";
 import { useGraphContext } from "./GraphContext";
 
@@ -10,6 +11,22 @@ function techLabel(id: string): string {
 export function InfoPanel() {
     const { selectedProject, selectProject } = useGraphContext();
     const project = selectedProject?.project;
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    // Un <video> en lecture (autoPlay+loop) doit être explicitement arrêté et
+    // libéré — le laisser au seul ramasse-miettes peut faire tourner le
+    // décodeur en arrière-plan un moment après la fermeture du panneau ou le
+    // changement de projet. Se déclenche au changement de vidéo ET au
+    // démontage (fermeture du panneau).
+    useEffect(() => {
+        return () => {
+            const el = videoRef.current;
+            if (!el) return;
+            el.pause();
+            el.removeAttribute("src");
+            el.load();
+        };
+    }, [project?.video]);
 
     if (!selectedProject || !project) return null;
 
@@ -21,6 +38,7 @@ export function InfoPanel() {
 
             {project.video ? (
                 <video
+                    ref={videoRef}
                     className="info-panel__image"
                     src={project.video}
                     autoPlay

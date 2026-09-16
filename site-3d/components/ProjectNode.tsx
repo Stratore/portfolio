@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Billboard, Text } from "@react-three/drei";
 import * as THREE from "three";
@@ -23,6 +23,17 @@ export function ProjectNode({ node, seed }: { node: PositionedNode; seed: number
 
     const basePos = useMemo(() => new THREE.Vector3(node.x, node.y, node.z), [node.x, node.y, node.z]);
 
+    // Filet anti-curseur-bloqué : si ce nœud est démonté pendant un survol
+    // (ex. bascule vers la vue classique en plein hover), onPointerOut ne se
+    // déclenche jamais et document.body.style.cursor resterait "pointer" en
+    // permanence sans ce nettoyage explicite au démontage.
+    const isHoveringRef = useRef(false);
+    useEffect(() => {
+        return () => {
+            if (isHoveringRef.current) document.body.style.cursor = "auto";
+        };
+    }, []);
+
     useFrame(({ clock }) => {
         const t = clock.getElapsedTime();
         if (group.current) {
@@ -34,7 +45,9 @@ export function ProjectNode({ node, seed }: { node: PositionedNode; seed: number
         }
         const targetScale = isHovered || isSelected ? 1.35 : 1;
         if (mesh.current) {
-            mesh.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.15);
+            // setScalar + lerp scalaire plutôt que lerp(new THREE.Vector3(...)) :
+            // évite d'allouer un Vector3 à chaque nœud, à chaque frame.
+            mesh.current.scale.setScalar(THREE.MathUtils.lerp(mesh.current.scale.x, targetScale, 0.15));
         }
         if (material.current) {
             const targetIntensity = isHovered || isSelected ? 2.2 : isDimmed ? 0.25 : 1.1;
@@ -55,11 +68,13 @@ export function ProjectNode({ node, seed }: { node: PositionedNode; seed: number
                 onPointerOver={(e) => {
                     e.stopPropagation();
                     setHoveredNode(node);
+                    isHoveringRef.current = true;
                     document.body.style.cursor = "pointer";
                 }}
                 onPointerOut={(e) => {
                     e.stopPropagation();
                     setHoveredNode(null);
+                    isHoveringRef.current = false;
                     document.body.style.cursor = "auto";
                 }}
                 onClick={(e) => {

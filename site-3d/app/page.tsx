@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { Fallback2D } from "@/components/Fallback2D";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // ssr:false est obligatoire ici (WebGL/window inexistants côté serveur).
 // Cette page reste elle-même rendue côté serveur pour le premier paint :
@@ -22,7 +23,24 @@ export default function Page() {
                 <Fallback2D />
             </div>
 
-            {!textMode && <World3D />}
+            {!textMode && (
+                <ErrorBoundary
+                    fallback={
+                        <div className="world-crash glass">
+                            <p className="world-crash__eyebrow">Scène 3D indisponible</p>
+                            <p className="world-crash__desc">
+                                Le rendu 3D a rencontré un problème sur cet appareil ou ce navigateur. Le reste du
+                                portfolio reste consultable.
+                            </p>
+                            <button className="world-crash__btn" onClick={() => setTextMode(true)}>
+                                Voir la vue classique →
+                            </button>
+                        </div>
+                    }
+                >
+                    <World3D />
+                </ErrorBoundary>
+            )}
 
             <button
                 className="text-mode-toggle glass"

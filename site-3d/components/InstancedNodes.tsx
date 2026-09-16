@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
 import { Billboard, Instances, Instance, Text } from "@react-three/drei";
 import * as THREE from "three";
@@ -26,6 +26,21 @@ export function InstancedNodes({ type, nodes }: { type: Extract<NodeType, "techn
     const radius = type === "techno" ? 0.42 : 0.36;
     const nearDetail = type === "techno" ? 0 : 1;
 
+    // Deux seules couleurs possibles par instance de ce composant (base/dim) :
+    // on les alloue une fois plutôt que de recréer un THREE.Color par nœud à
+    // chaque frame dans la boucle useFrame ci-dessous (pression GC inutile).
+    const baseColor = useMemo(() => new THREE.Color(base), [base]);
+    const dimColor = useMemo(() => new THREE.Color(dim), [dim]);
+
+    // Seul un nœud à la fois peut être survolé/épinglé dans ce groupe : un
+    // unique Billboard+Text réutilisé (repositionné, jamais démonté) plutôt
+    // qu'un Suspense par nœud qui se monte/démonte à chaque survol — évite de
+    // refaire tourner troika (regénération de la géométrie SDF) en boucle.
+    const activeNode = useMemo(
+        () => nodes.find((n) => n.id === hoveredNode?.id || n.id === highlightedNode?.id) ?? null,
+        [nodes, hoveredNode, highlightedNode]
+    );
+
     // LOD léger basé sur la distance caméra : au-delà d'un certain éloignement,
     // on retombe sur la géométrie la plus grossière (0 subdivision) — même
     // principe qu'un THREE.LOD, généralisable sans changement à des centaines
@@ -34,6 +49,16 @@ export function InstancedNodes({ type, nodes }: { type: Extract<NodeType, "techn
     const [isFar, setIsFar] = useState(false);
     const frameCount = useRef(0);
     const detail = isFar ? 0 : nearDetail;
+
+    // Filet anti-curseur-bloqué : cf. le même correctif dans ProjectNode.tsx —
+    // sans ça, démonter ce composant (bascule de vue) pendant un survol laisse
+    // document.body.style.cursor bloqué sur "pointer" indéfiniment.
+    const isHoveringRef = useRef(false);
+    useEffect(() => {
+        return () => {
+            if (isHoveringRef.current) document.body.style.cursor = "auto";
+        };
+    }, []);
 
     useFrame(({ clock }) => {
         frameCount.current++;
@@ -51,13 +76,12 @@ export function InstancedNodes({ type, nodes }: { type: Extract<NodeType, "techn
                 const isHovered = hoveredNode?.id === n.id;
                 const isHighlighted = highlightedNode?.id === n.id;
                 const target = isHovered || isHighlighted ? 1.7 : 1;
-                obj.scale.lerp(new THREE.Vector3(target, target, target), 0.18);
+                obj.scale.setScalar(THREE.MathUtils.lerp(obj.scale.x, target, 0.18));
             }
             const col = colors.current[i];
             if (col) {
                 const isDimmed = relatedIds !== null && !relatedIds.has(n.id);
-                const targetColor = isDimmed ? new THREE.Color(dim) : new THREE.Color(base);
-                col.lerp(targetColor, 0.12);
+                col.lerp(isDimmed ? dimColor : baseColor, 0.12);
             }
         });
     });
@@ -79,11 +103,13 @@ export function InstancedNodes({ type, nodes }: { type: Extract<NodeType, "techn
                         onPointerOver={(e: ThreeEvent<PointerEvent>) => {
                             e.stopPropagation();
                             setHoveredNode(n);
+                            isHoveringRef.current = true;
                             document.body.style.cursor = "pointer";
                         }}
                         onPointerOut={(e: ThreeEvent<PointerEvent>) => {
                             e.stopPropagation();
                             setHoveredNode(null);
+                            isHoveringRef.current = false;
                             document.body.style.cursor = "auto";
                         }}
                         onClick={(e: ThreeEvent<MouseEvent>) => {
@@ -94,27 +120,24 @@ export function InstancedNodes({ type, nodes }: { type: Extract<NodeType, "techn
                 ))}
             </Instances>
 
-            {nodes.map((n) => {
-                const isVisible = hoveredNode?.id === n.id || highlightedNode?.id === n.id;
-                if (!isVisible) return null;
-                return (
-                    <Suspense key={`label-${n.id}`} fallback={null}>
-                        <Billboard position={[n.x, n.y + radius + 0.45, n.z]}>
-                            <Text
-                                fontSize={0.34}
-                                color="#f2f6f8"
-                                anchorX="center"
-                                anchorY="bottom"
-                                outlineWidth={0.022}
-                                outlineColor="#04070a"
-                                outlineOpacity={0.9}
-                            >
-                                {n.label}
-                            </Text>
-                        </Billboard>
-                    </Suspense>
-                );
-            })}
+            <Suspense fallback={null}>
+                <Billboard
+                    visible={activeNode !== null}
+                    position={activeNode ? [activeNode.x, activeNode.y + radius + 0.45, activeNode.z] : [0, 0, 0]}
+                >
+                    <Text
+                        fontSize={0.34}
+                        color="#f2f6f8"
+                        anchorX="center"
+                        anchorY="bottom"
+                        outlineWidth={0.022}
+                        outlineColor="#04070a"
+                        outlineOpacity={0.9}
+                    >
+                        {activeNode?.label ?? ""}
+                    </Text>
+                </Billboard>
+            </Suspense>
         </group>
     );
 }

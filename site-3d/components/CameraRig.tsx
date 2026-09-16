@@ -30,7 +30,7 @@ const ARRIVAL_EPSILON = 0.05;
  * position par défaut" annulerait en continu toute rotation manuelle de
  * l'utilisateur).
  */
-export function CameraRig({ controlsRef }: { controlsRef: RefObject<OrbitControlsImpl> }) {
+export function CameraRig({ controlsRef }: { controlsRef: RefObject<OrbitControlsImpl | null> }) {
     const { selectedProject, highlightedNode } = useGraphContext();
     const focusNode = selectedProject ?? highlightedNode;
     const { camera } = useThree();

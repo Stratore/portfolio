@@ -79,66 +79,78 @@ class GenerativeAudioEngine {
         if (this.starting) return;
         this.starting = true;
 
-        // Le contexte est créé de façon synchrone dans le geste utilisateur
-        // (obligatoire) ; le chargement/décodage des boucles peut ensuite
-        // continuer de façon asynchrone sans perdre l'autorisation navigateur.
-        const ctx = new AudioContext();
-        this.ctx = ctx;
-
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.value = FILTER_REST;
-        filter.Q.value = 0.4;
-
-        const masterGain = ctx.createGain();
-        masterGain.gain.value = 0;
-        filter.connect(masterGain);
-        masterGain.connect(ctx.destination);
-        this.filter = filter;
-        this.masterGain = masterGain;
-
         try {
-            const [deepBuffer, highBuffer] = await Promise.all([
-                loadBuffer(ctx, PAD_DEEP_URL),
-                loadBuffer(ctx, PAD_HIGH_URL),
-            ]);
+            // Le contexte est créé de façon synchrone dans le geste utilisateur
+            // (obligatoire) ; le chargement/décodage des boucles peut ensuite
+            // continuer de façon asynchrone sans perdre l'autorisation navigateur.
+            // Toute cette section (y compris la création du contexte lui-même)
+            // est protégée : certains environnements bloquent Web Audio (iframe
+            // sandboxée, politique navigateur stricte...) et `new AudioContext()`
+            // peut lever une exception — sans ce filet, `starting` restait bloqué
+            // à `true` pour toujours et plus aucun futur appel à `start()` n'aurait
+            // d'effet, même après un vrai geste utilisateur ultérieur.
+            const ctx = new AudioContext();
+            this.ctx = ctx;
 
-            const deepGain = ctx.createGain();
-            deepGain.gain.value = DEEP_GAIN_FAR;
-            const highGain = ctx.createGain();
-            highGain.gain.value = HIGH_GAIN_FAR;
+            const filter = ctx.createBiquadFilter();
+            filter.type = "lowpass";
+            filter.frequency.value = FILTER_REST;
+            filter.Q.value = 0.4;
 
-            const deepSource = ctx.createBufferSource();
-            deepSource.buffer = deepBuffer;
-            deepSource.loop = true;
+            const masterGain = ctx.createGain();
+            masterGain.gain.value = 0;
+            filter.connect(masterGain);
+            masterGain.connect(ctx.destination);
+            this.filter = filter;
+            this.masterGain = masterGain;
 
-            const highSource = ctx.createBufferSource();
-            highSource.buffer = highBuffer;
-            highSource.loop = true;
+            try {
+                const [deepBuffer, highBuffer] = await Promise.all([
+                    loadBuffer(ctx, PAD_DEEP_URL),
+                    loadBuffer(ctx, PAD_HIGH_URL),
+                ]);
 
-            deepSource.connect(deepGain);
-            highSource.connect(highGain);
-            deepGain.connect(filter);
-            highGain.connect(filter);
+                const deepGain = ctx.createGain();
+                deepGain.gain.value = DEEP_GAIN_FAR;
+                const highGain = ctx.createGain();
+                highGain.gain.value = HIGH_GAIN_FAR;
 
-            deepSource.start();
-            highSource.start();
+                const deepSource = ctx.createBufferSource();
+                deepSource.buffer = deepBuffer;
+                deepSource.loop = true;
 
-            this.deepSource = deepSource;
-            this.highSource = highSource;
-            this.deepGain = deepGain;
-            this.highGain = highGain;
-        } catch {
-            // Si le chargement échoue (réseau, etc.), on laisse le moteur
-            // silencieux plutôt que de bloquer le reste de l'expérience.
+                const highSource = ctx.createBufferSource();
+                highSource.buffer = highBuffer;
+                highSource.loop = true;
+
+                deepSource.connect(deepGain);
+                highSource.connect(highGain);
+                deepGain.connect(filter);
+                highGain.connect(filter);
+
+                deepSource.start();
+                highSource.start();
+
+                this.deepSource = deepSource;
+                this.highSource = highSource;
+                this.deepGain = deepGain;
+                this.highGain = highGain;
+            } catch {
+                // Si le chargement des boucles échoue (réseau, etc.), on laisse le
+                // moteur silencieux plutôt que de bloquer le reste de l'expérience.
+            }
+
+            const now = ctx.currentTime;
+            masterGain.gain.setValueAtTime(0, now);
+            masterGain.gain.linearRampToValueAtTime(this.muted ? 0 : MASTER_TARGET_GAIN, now + FADE_IN_SECONDS);
+
+            this.started = true;
+        } catch (err) {
+            console.warn("[audio] démarrage impossible sur cet environnement :", err);
+            this.ctx = null;
+        } finally {
+            this.starting = false;
         }
-
-        const now = ctx.currentTime;
-        masterGain.gain.setValueAtTime(0, now);
-        masterGain.gain.linearRampToValueAtTime(this.muted ? 0 : MASTER_TARGET_GAIN, now + FADE_IN_SECONDS);
-
-        this.started = true;
-        this.starting = false;
     }
 
     /** Bascule muet/audible avec une rampe douce (pas de coupure brutale). */
