@@ -68,10 +68,12 @@ export function InfoPanel() {
             <p className="info-panel__description">{project.description}</p>
 
             <div className="info-panel__actions">
-                {project.github && (
+                {project.github ? (
                     <a href={project.github} target="_blank" rel="noopener noreferrer" className="info-panel__link">
                         Code source ↗
                     </a>
+                ) : (
+                    project.inProgress && <span className="info-panel__status">Projet en cours de développement</span>
                 )}
                 {project.demo && (
                     <a href={project.demo} target="_blank" rel="noopener noreferrer" className="info-panel__link">

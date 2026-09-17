@@ -56,6 +56,30 @@ export const graphData: GraphData = {
                 tags: ["tech-linux", "tech-windows", "tech-cpp", "skill-systemes"],
             },
         },
+        {
+            id: "proj-facelog",
+            type: "projet",
+            weight: 1.2,
+            label: "FaceLog",
+            project: {
+                tagline: "Appel automatisé par reconnaissance faciale — projet d'équipe",
+                description:
+                    "Application d'appel automatisé pour le BUT Informatique : un enseignant balaie la salle avec la caméra d'un smartphone, l'application identifie les étudiants présents par rapport au groupe attendu et calcule automatiquement les retards par rapport à l'heure de début du cours. Le projet couvre la gestion du référentiel pédagogique (étudiants, groupes CM/TD/TP, enseignants, cours), l'analyse vidéo (OpenCV, face_recognition) et une base SQLite pour l'historique des présences. Une attention particulière est portée au cadre légal et éthique du traitement de données biométriques (RGPD, CNIL, chiffrement, durée de conservation). Projet d'équipe, encore en cours de développement.",
+                tags: [
+                    "tech-python",
+                    "tech-javascript",
+                    "tech-java",
+                    "tech-cpp",
+                    "tech-sqlite",
+                    "skill-algo",
+                    "skill-poo",
+                    "skill-cyber",
+                    "skill-ui",
+                    "skill-gestion-projet",
+                ],
+                inProgress: true,
+            },
+        },
 
         // --- Technologies ---
         { id: "tech-cpp", type: "techno", label: "C++", weight: 1 },
@@ -69,6 +93,7 @@ export const graphData: GraphData = {
         { id: "tech-javascript", type: "techno", label: "JavaScript", weight: 0.6 },
         { id: "tech-qt", type: "techno", label: "Qt", weight: 0.5 },
         { id: "tech-json", type: "techno", label: "JSON", weight: 0.5 },
+        { id: "tech-sqlite", type: "techno", label: "SQLite", weight: 0.6 },
 
         // --- Compétences ---
         { id: "skill-algo", type: "skill", label: "Algorithmique", weight: 0.9 },
@@ -78,6 +103,7 @@ export const graphData: GraphData = {
         { id: "skill-cyber", type: "skill", label: "Cybersécurité (sensibilisation)", weight: 0.8 },
         { id: "skill-api", type: "skill", label: "Intégration d'API", weight: 0.8 },
         { id: "skill-ui", type: "skill", label: "UI / UX", weight: 0.7 },
+        { id: "skill-gestion-projet", type: "skill", label: "Gestion de projet", weight: 0.7 },
     ],
     edges: [
         // Projets → technologies utilisées
@@ -95,6 +121,16 @@ export const graphData: GraphData = {
         { source: "proj-tripleboot", target: "tech-linux" },
         { source: "proj-tripleboot", target: "tech-windows" },
         { source: "proj-tripleboot", target: "skill-systemes" },
+        { source: "proj-facelog", target: "tech-python" },
+        { source: "proj-facelog", target: "tech-javascript" },
+        { source: "proj-facelog", target: "tech-java" },
+        { source: "proj-facelog", target: "tech-cpp" },
+        { source: "proj-facelog", target: "tech-sqlite" },
+        { source: "proj-facelog", target: "skill-algo" },
+        { source: "proj-facelog", target: "skill-poo" },
+        { source: "proj-facelog", target: "skill-cyber" },
+        { source: "proj-facelog", target: "skill-ui" },
+        { source: "proj-facelog", target: "skill-gestion-projet" },
 
         // Compétences ↔ technologies associées
         { source: "skill-algo", target: "tech-cpp" },
@@ -103,6 +139,7 @@ export const graphData: GraphData = {
         { source: "skill-web", target: "tech-html" },
         { source: "skill-web", target: "tech-css" },
         { source: "skill-web", target: "tech-sql" },
+        { source: "skill-web", target: "tech-sqlite" },
         { source: "skill-systemes", target: "tech-linux" },
         { source: "skill-systemes", target: "tech-windows" },
         { source: "skill-cyber", target: "skill-systemes" },

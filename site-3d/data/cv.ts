@@ -1,23 +1,23 @@
-// Contenu réel du CV de Pierre Puget — utilisé par le hologramme CV
-// (components/CVHologram.tsx). Séparé du rendu pour la même raison que
+// Contenu réel du CV de Pierre Puget — utilisé par le panneau CV
+// (components/CVTerminal.tsx). Séparé du rendu pour la même raison que
 // data/graph.ts : une seule source de vérité, modifiable sans toucher au code.
 export const cvData = {
     name: "Pierre Puget",
     tagline:
-        "Actuellement en première année de BUT Informatique à l'IUT d'Arles, ce premier semestre a confirmé mon attrait pour les aspects techniques et la logique algorithmique. Passionné par ces enjeux, je souhaite orienter mon parcours vers la cybersécurité.",
+        "Actuellement en deuxième année de BUT Informatique à l'IUT d'Arles, ma première année m'a permis de consolider mes bases en développement et de confirmer mon attrait pour les aspects techniques et la logique algorithmique. Passionné par ces enjeux, je souhaite orienter mon parcours vers la cybersécurité.",
 
     skills: [
         {
             title: "Développement et Algorithmique",
-            desc: "Apprentissage de la logique de programmation et des algorithmes via les langages Python et C++.",
+            desc: "Programmation et résolution algorithmique en Python et C++, mises en pratique sur des projets concrets (structures de données, parcours de graphes).",
         },
         {
             title: "Web et Données",
-            desc: "Bases de l'intégration web (HTML, CSS) et initiation à la gestion de bases de données (SQL).",
+            desc: "Intégration web (HTML, CSS) et gestion de bases de données relationnelles (SQL).",
         },
         {
             title: "Systèmes et Environnements",
-            desc: "Bases de l'administration système (Linux/Bash, Windows). Compréhension de l'architecture des ordinateurs et des systèmes d'exploitation.",
+            desc: "Administration système (Linux/Bash, Windows), architecture des ordinateurs et des systèmes d'exploitation.",
         },
     ],
 

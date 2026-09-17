@@ -40,7 +40,7 @@ export function computeLayout(data: GraphData): GraphLayoutResult {
     const simulation = forceSimulation(simNodes, 3)
         .force(
             "charge",
-            forceManyBody().strength((n: SimNode) => -18 * (n.weight ?? 1) * (n.type === "projet" ? 2.1 : 1))
+            forceManyBody().strength((n: SimNode) => -18 * (n.weight ?? 1) * (n.type === "projet" ? 2.3 : 1))
         )
         .force(
             "link",
@@ -48,7 +48,7 @@ export function computeLayout(data: GraphData): GraphLayoutResult {
                 .id((n: SimNode) => n.id)
                 .distance((l: any) => {
                     const s = nodeById.get(typeof l.source === "string" ? l.source : l.source.id);
-                    return s?.type === "projet" ? 6.2 : 3.2;
+                    return s?.type === "projet" ? 6.6 : 3.2;
                 })
                 .strength(0.4)
         )
@@ -62,7 +62,7 @@ export function computeLayout(data: GraphData): GraphLayoutResult {
         .force("x", forceX(0).strength(0.09))
         .force("y", forceY(0).strength(0.09))
         .force("z", forceZ(0).strength(0.09))
-        .force("collide", forceCollide((n: SimNode) => 1.6 * (n.weight ?? 1) + (n.type === "projet" ? 1.7 : 0)))
+        .force("collide", forceCollide((n: SimNode) => 1.6 * (n.weight ?? 1) + (n.type === "projet" ? 1.85 : 0)))
         .stop();
 
     const TICKS = 360;

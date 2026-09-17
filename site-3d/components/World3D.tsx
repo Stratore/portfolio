@@ -3,7 +3,7 @@
 import "@/lib/troikaConfig";
 import { Suspense, useMemo, useRef, type ElementRef } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Stars } from "@react-three/drei";
+import { OrbitControls, Stars, Sparkles } from "@react-three/drei";
 import { defaultFraming, FOV } from "@/lib/defaultFraming";
 
 // Le type du ref est dérivé directement du composant drei plutôt que d'un
@@ -21,6 +21,9 @@ import { MiniMapTracker } from "./MiniMapTracker";
 import { MiniMap } from "./MiniMap";
 import { InfoPanel } from "./InfoPanel";
 import { HUD } from "./HUD";
+import { SceneEffects } from "./SceneEffects";
+import { BootSequence } from "./BootSequence";
+import { CursorTrail } from "./CursorTrail";
 
 /**
  * Racine du monde 3D. Composant client uniquement (WebGL) — importé par
@@ -61,6 +64,17 @@ export default function World3D() {
                             fade
                             speed={0.4}
                         />
+                        {/* Deuxième couche, plus proche et plus rare que les étoiles :
+                            crée une légère parallaxe au mouvement de caméra, donne de la
+                            profondeur sans concurrencer visuellement le graphe. */}
+                        <Sparkles
+                            count={140}
+                            scale={defaultFraming.maxDistance * 0.9}
+                            size={1.4}
+                            speed={0.15}
+                            opacity={0.35}
+                            color="#5ec8ff"
+                        />
                         <NetworkGraph />
                     </Suspense>
 
@@ -71,14 +85,23 @@ export default function World3D() {
                         ref={controlsRef}
                         target={defaultFraming.target}
                         enableDamping
-                        dampingFactor={0.08}
-                        rotateSpeed={0.6}
+                        dampingFactor={0.05}
+                        rotateSpeed={0.75}
                         zoomSpeed={0.9}
                         panSpeed={0.7}
                         minDistance={defaultFraming.minDistance}
                         maxDistance={defaultFraming.maxDistance}
+                        // Évite les deux pôles de la sphère d'orbite : juste avant/après,
+                        // une rotation azimutale infime produit un balayage visuel énorme
+                        // (quasi-gimbal lock) — c'est ce qui donnait l'impression que la
+                        // caméra "se coince". La plage restante (~157°) couvre largement
+                        // toutes les vues utiles du graphe.
+                        minPolarAngle={Math.PI / 8}
+                        maxPolarAngle={Math.PI - Math.PI / 8}
                         makeDefault
                     />
+
+                    <SceneEffects />
                 </Canvas>
             </div>
 
@@ -92,6 +115,8 @@ export default function World3D() {
             <InfoPanel />
             <AudioAutoStart />
             <MiniMap />
+            <BootSequence />
+            <CursorTrail />
         </GraphProvider>
     );
 }

@@ -44,10 +44,14 @@ export function Fallback2D() {
                                 ))}
                             </div>
                         )}
-                        {p.project?.github && (
+                        {p.project?.github ? (
                             <a href={p.project.github} target="_blank" rel="noopener noreferrer">
                                 Code source ↗
                             </a>
+                        ) : (
+                            p.project?.inProgress && (
+                                <span className="fallback-2d__status">Projet en cours de développement</span>
+                            )
                         )}
                     </li>
                 ))}

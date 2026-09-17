@@ -13,6 +13,10 @@ export interface ProjectDetails {
      * boucle vidéo est l'équivalent pratique. Prend le pas sur `image` si les
      * deux sont fournis. */
     video?: string;
+    /** Vrai pour un projet encore en développement, sans dépôt public à
+     * montrer pour l'instant — affiche un badge "Projet en cours" à la place
+     * du lien "Code source" plutôt que de laisser cet espace vide/muet. */
+    inProgress?: boolean;
 }
 
 export interface RawNode {

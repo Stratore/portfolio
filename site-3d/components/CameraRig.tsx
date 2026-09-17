@@ -42,6 +42,24 @@ export function CameraRig({ controlsRef }: { controlsRef: RefObject<OrbitControl
         transitioning.current = true;
     }, [selectedProject, highlightedNode]);
 
+    // Bug corrigé : tant que `transitioning` restait vrai (le temps du vol
+    // vers un nœud, ~1 seconde), la boucle ci-dessous écrasait la position de
+    // la caméra à CHAQUE frame — un drag utilisateur démarré pendant ce laps
+    // de temps se faisait donc annuler en continu, ressenti comme une caméra
+    // "bloquée". Dès que l'utilisateur touche réellement les contrôles
+    // (OrbitControls émet "start" au pointerdown/molette/touch), on cède la
+    // main immédiatement : le survol seul (hover sans clic) ne déclenche pas
+    // cet événement, donc ça ne coupe jamais une transition non désirée.
+    useEffect(() => {
+        const controls = controlsRef.current;
+        if (!controls) return;
+        const onUserStart = () => {
+            transitioning.current = false;
+        };
+        controls.addEventListener("start", onUserStart);
+        return () => controls.removeEventListener("start", onUserStart);
+    }, [controlsRef]);
+
     useFrame(() => {
         const controls = controlsRef.current;
         if (!controls || !transitioning.current) return;

@@ -46,6 +46,10 @@ const securityHeaders = [
 const nextConfig = {
     reactStrictMode: true,
     transpilePackages: ['three'],
+    // Masque le badge "N" (indicateur de dev tools) que Next.js superpose en
+    // dev — jamais présent en production de toute façon, mais gênant pour
+    // les captures/démos en local.
+    devIndicators: false,
     async headers() {
         return [{ source: "/:path*", headers: securityHeaders }];
     },
