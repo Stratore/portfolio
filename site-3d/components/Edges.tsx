@@ -27,14 +27,18 @@ function EdgeParticle({ edge, offset }: { edge: PositionedEdge; offset: number }
 }
 
 function Edge({ edge }: { edge: PositionedEdge }) {
-    const { highlightedNode, hoveredNode } = useGraphContext();
+    const { highlightedNode, hoveredNode, typeFilter } = useGraphContext();
 
     const touchesActive =
         highlightedNode !== null && (edge.source.id === highlightedNode.id || edge.target.id === highlightedNode.id);
     const touchesHover =
         hoveredNode !== null && (edge.source.id === hoveredNode.id || edge.target.id === hoveredNode.id);
-    const isDimmed = highlightedNode !== null && !touchesActive;
-    const isActive = touchesActive || touchesHover;
+    // Une arête ne reste visible sous filtre que si ses DEUX extrémités
+    // correspondent au type affiché — sinon elle pointe vers un nœud masqué.
+    const isFilteredOut =
+        typeFilter !== null && (edge.source.type !== typeFilter || edge.target.type !== typeFilter);
+    const isDimmed = !isFilteredOut && highlightedNode !== null && !touchesActive;
+    const isActive = !isFilteredOut && (touchesActive || touchesHover);
 
     const points: [number, number, number][] = [
         [edge.source.x, edge.source.y, edge.source.z],
@@ -47,10 +51,12 @@ function Edge({ edge }: { edge: PositionedEdge }) {
                 points={points}
                 color={isActive ? "#bfe9ff" : "#5a6472"}
                 transparent
-                opacity={isDimmed ? 0.08 : isActive ? 0.9 : 0.32}
+                opacity={isFilteredOut ? 0 : isDimmed ? 0.08 : isActive ? 0.9 : 0.32}
                 lineWidth={isActive ? 1.6 : 0.8}
             />
-            {!isDimmed && <EdgeParticle edge={edge} offset={(edge.source.id.length + edge.target.id.length) % 10 / 10} />}
+            {!isDimmed && !isFilteredOut && (
+                <EdgeParticle edge={edge} offset={(edge.source.id.length + edge.target.id.length) % 10 / 10} />
+            )}
         </>
     );
 }

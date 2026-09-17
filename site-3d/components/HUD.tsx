@@ -6,9 +6,17 @@ import { audioEngine } from "@/lib/audio/generativeAudio";
 import { CVTerminal } from "./CVTerminal";
 import { ContactTerminal } from "./ContactTerminal";
 import { SplitText } from "./SplitText";
+import type { NodeType } from "@/lib/types";
+
+const LEGEND_ITEMS: { type: NodeType; label: string; dotClass: string }[] = [
+    { type: "projet", label: "Projet", dotClass: "dot--projet" },
+    { type: "techno", label: "Technologie", dotClass: "dot--techno" },
+    { type: "skill", label: "Compétence", dotClass: "dot--skill" },
+];
 
 export function HUD() {
-    const { selectedProject, selectProject, highlightedNode, clearHighlight } = useGraphContext();
+    const { selectedProject, selectProject, highlightedNode, clearHighlight, typeFilter, setTypeFilter } =
+        useGraphContext();
     const showReset = selectedProject !== null || highlightedNode !== null;
     const [muted, setMuted] = useState(false);
     const [activePanel, setActivePanel] = useState<"cv" | "contact" | null>(null);
@@ -51,9 +59,26 @@ export function HUD() {
             </header>
 
             <div className="hud-legend glass">
-                <span className="hud-legend__item"><i className="dot dot--projet" />Projet</span>
-                <span className="hud-legend__item"><i className="dot dot--techno" />Technologie</span>
-                <span className="hud-legend__item"><i className="dot dot--skill" />Compétence</span>
+                {LEGEND_ITEMS.map((item) => (
+                    <button
+                        key={item.type}
+                        className="hud-legend__item"
+                        aria-pressed={typeFilter === item.type}
+                        onClick={() => setTypeFilter(item.type)}
+                    >
+                        <i className={`dot ${item.dotClass}`} />
+                        {item.label}
+                    </button>
+                ))}
+                {typeFilter && (
+                    <button
+                        className="hud-legend__clear"
+                        onClick={() => setTypeFilter(null)}
+                        aria-label="Réinitialiser le filtre — tout voir"
+                    >
+                        <span aria-hidden="true">×</span> Tout voir
+                    </button>
+                )}
             </div>
 
             <p className="hud-hint glass">Glissez pour orbiter · molette pour zoomer · clic sur un nœud</p>

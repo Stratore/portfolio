@@ -15,6 +15,19 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font-body); }
+
+/* Sélection de texte désactivée sur tout le site (choix UX) : le portfolio
+   se navigue et se regarde, il ne se copie pas comme du texte brut. */
+* {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+input, textarea, [contenteditable="true"] {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    user-select: text;
+}
 h1, h2, h3 { font-family: var(--font-head); font-weight: 600; }
 a { color: var(--accent); }
 
@@ -138,7 +151,36 @@ body.cursor-hidden, body.cursor-hidden * { cursor: none !important; }
     position: fixed; bottom: 20px; left: 20px; z-index: 20;
     display: flex; gap: 1rem; padding: 0.6rem 1rem; font-size: 0.72rem; color: var(--text-muted);
 }
-.hud-legend__item { display: flex; align-items: center; gap: 0.4rem; }
+.hud-legend__item {
+    display: flex; align-items: center; gap: 0.4rem;
+    background: none; border: none; margin: 0; padding: 0.3rem 0.55rem; border-radius: 20px;
+    font: inherit; font-size: 0.72rem; color: var(--text-muted); cursor: pointer;
+    transition: color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+.hud-legend__item:hover { color: var(--text); }
+.hud-legend__item[aria-pressed="true"] {
+    color: var(--text);
+    background: color-mix(in srgb, var(--accent) 16%, transparent);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent) inset;
+}
+.hud-legend__clear {
+    display: flex; align-items: center; gap: 0.3rem;
+    background: none; border: 1px solid var(--glass-border); margin-left: 0.2rem;
+    padding: 0.3rem 0.7rem; border-radius: 20px;
+    font: inherit; font-size: 0.68rem; color: var(--text-muted); cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    animation: legendClearIn 0.25s ease;
+}
+.hud-legend__clear:hover { border-color: var(--accent); color: var(--text); }
+.hud-legend__clear span { font-size: 0.9rem; line-height: 1; }
+@keyframes legendClearIn {
+    from { opacity: 0; transform: translateX(-4px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .hud-legend__item, .hud-legend__clear { transition: none; }
+    .hud-legend__clear { animation: none; }
+}
 .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 .dot--projet { background: #5ec8ff; }
 .dot--techno { background: #8f7bff; }
@@ -181,10 +223,51 @@ body.cursor-hidden, body.cursor-hidden * { cursor: none !important; }
     width: min(400px, 88vw); overflow-y: auto;
     padding: 2.2rem 2rem; display: flex; flex-direction: column; gap: 0.9rem;
 }
-.info-panel__image {
-    width: calc(100% + 4rem); margin: -2.2rem -2rem 0.4rem; display: block;
-    aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--glass-border);
+/* === MÉDIA PROJET (vidéo ou image unique) — après la description, pas en
+   bannière d'ouverture : on lit d'abord ce qu'est le projet, l'image vient
+   ensuite comme preuve/illustration. Carte contenue dans le padding du
+   panneau (coins arrondis, bordure fine, légère ombre) plutôt que le
+   traitement "plein bord" précédent, jugé trop brut. */
+.info-panel__section-label {
+    font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); margin-top: 0.2rem;
 }
+.info-panel__media {
+    width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: cover;
+    border-radius: 10px; border: 1px solid var(--glass-border);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* === GALERIE DE CAPTURES (grille asymétrique : hero + 2 en dessous) === */
+.info-panel__gallery {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;
+}
+.info-panel__gallery-item {
+    position: relative; display: block; padding: 0; margin: 0;
+    background: none; cursor: zoom-in; overflow: hidden; line-height: 0;
+    border-radius: 10px; border: 1px solid var(--glass-border);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+}
+.info-panel__gallery-item:first-child { grid-column: 1 / -1; }
+.info-panel__gallery-item:first-child img { aspect-ratio: 16 / 9; }
+.info-panel__gallery-item:not(:first-child) img { aspect-ratio: 4 / 3; }
+.info-panel__gallery-item img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.35s ease, filter 0.35s ease;
+}
+.info-panel__gallery-item:hover img { transform: scale(1.06); filter: brightness(1.08); }
+.info-panel__gallery-item:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--glass-border)); }
+.info-panel__gallery-item::after {
+    content: "＋"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; color: #fff; background: rgba(3, 4, 7, 0.35);
+    opacity: 0; transition: opacity 0.25s ease; pointer-events: none;
+}
+.info-panel__gallery-item:hover::after { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+    .info-panel__gallery-item img { transition: none; }
+    .info-panel__gallery-item:hover img { transform: none; }
+}
+
 .info-panel__close {
     position: absolute; top: 14px; right: 16px; font-size: 1.6rem; color: var(--text-muted); cursor: pointer;
     background: none; border: none;
@@ -217,6 +300,29 @@ body.cursor-hidden, body.cursor-hidden * { cursor: none !important; }
 }
 @media (prefers-reduced-motion: reduce) {
     .info-panel__status::before { animation: none; opacity: 0.8; }
+}
+
+/* === VISIONNEUSE PLEIN ÉCRAN (galerie de captures, cf. ImageLightbox.tsx) === */
+.lightbox-overlay {
+    position: fixed; inset: 0; z-index: 120; display: flex; align-items: center; justify-content: center;
+    padding: 6vh 6vw; background: rgba(3, 4, 7, 0.88);
+    animation: lightboxIn 0.2s ease both;
+}
+@keyframes lightboxIn { from { opacity: 0; } to { opacity: 1; } }
+.lightbox-image {
+    max-width: 100%; max-height: 100%; border-radius: 8px; cursor: default;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); border: 1px solid var(--glass-border);
+}
+.lightbox-close {
+    position: fixed; top: 20px; right: 20px; z-index: 121;
+    font-family: var(--font-mono); font-size: 0.72rem; color: var(--text); background: var(--glass-bg);
+    border: 1px solid var(--glass-border); border-radius: 30px; padding: 0.55rem 1rem; cursor: pointer;
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    transition: border-color 0.2s;
+}
+.lightbox-close:hover { border-color: var(--accent); box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 40%, transparent); }
+@media (prefers-reduced-motion: reduce) {
+    .lightbox-overlay { animation: none; }
 }
 
 /* === VIGNETTE COMPÉTENCE / TECHNOLOGIE (ancrée en 3D) === */
@@ -367,6 +473,32 @@ a.term-cmd { margin-top: 2rem; }
     font-size: 0.7rem; color: var(--accent);
 }
 .fallback-2d__status { font-size: 0.85rem; color: var(--text-muted); font-style: italic; }
+/* Vignettes plus grandes qu'en 3D : la vue classique a bien plus de largeur
+   disponible (max 720px) que le panneau projet (400px), pas de raison de se
+   restreindre. Cliquables → ImageLightbox (cf. ScreenshotGrid.tsx), plus un
+   simple <a target="_blank"> (ouvrait l'image brute dans un nouvel onglet,
+   sans moyen simple de revenir). */
+.fallback-2d__shots { display: flex; gap: 0.7rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
+.fallback-2d__shot {
+    display: block; width: 180px; aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden;
+    border: 1px solid var(--glass-border); box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+    padding: 0; margin: 0; background: none; cursor: zoom-in;
+    transition: border-color 0.2s, transform 0.25s ease;
+}
+.fallback-2d__shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease; }
+.fallback-2d__shot:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--glass-border)); transform: translateY(-2px); }
+.fallback-2d__shot:hover img { transform: scale(1.06); }
+@media (prefers-reduced-motion: reduce) {
+    .fallback-2d__shot, .fallback-2d__shot img { transition: none; }
+    .fallback-2d__shot:hover { transform: none; }
+    .fallback-2d__shot:hover img { transform: none; }
+}
+@media (max-width: 720px) {
+    .fallback-2d__shot { width: calc(50% - 0.35rem); }
+}
+@media (max-width: 420px) {
+    .fallback-2d__shot { width: 100%; }
+}
 
 @media (max-width: 720px) {
     .text-mode-toggle { top: 176px; right: 20px; }

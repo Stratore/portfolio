@@ -26,7 +26,13 @@ export class ErrorBoundary extends Component<Props, State> {
     }
 
     componentDidCatch(error: unknown, info: unknown) {
-        console.error("[ErrorBoundary] rendu interrompu :", error, info);
+        // Log détaillé (message, stack, arbre de composants) réservé au dev :
+        // en production, ça reste dans la console du visiteur, mais autant ne
+        // pas exposer inutilement la structure interne des composants à qui
+        // ouvrirait les devtools.
+        if (process.env.NODE_ENV !== "production") {
+            console.error("[ErrorBoundary] rendu interrompu :", error, info);
+        }
     }
 
     render() {

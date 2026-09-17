@@ -40,6 +40,15 @@ const securityHeaders = [
     { key: "X-Content-Type-Options", value: "nosniff" },
     { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
     { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+    // HSTS : le site n'a aucune raison de jamais être servi en HTTP — 2 ans,
+    // sous-domaines inclus. Sans effet en dev (HTTP local), les navigateurs
+    // ignorent HSTS hors HTTPS.
+    { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+    // Isolation cross-origin : aucune iframe/popup tierce n'a besoin d'accéder
+    // à ce document, et lui n'a besoin d'accéder à aucune ressource cross-origin
+    // en mode "same-origin" strict (pas de <img>/<script> tiers chargés ici).
+    { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+    { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
 ];
 
 /** @type {import('next').NextConfig} */
@@ -50,6 +59,9 @@ const nextConfig = {
     // dev — jamais présent en production de toute façon, mais gênant pour
     // les captures/démos en local.
     devIndicators: false,
+    // Retire l'en-tête "X-Powered-By: Next.js" — aucune valeur fonctionnelle,
+    // ne fait que faciliter le fingerprinting de la stack pour un attaquant.
+    poweredByHeader: false,
     async headers() {
         return [{ source: "/:path*", headers: securityHeaders }];
     },

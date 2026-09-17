@@ -19,7 +19,8 @@ const PALETTE: Record<NodeType, { base: string; dim: string }> = {
  * supplémentaire à des centaines de nœuds.
  */
 export function InstancedNodes({ type, nodes }: { type: Extract<NodeType, "techno" | "skill">; nodes: PositionedNode[] }) {
-    const { hoveredNode, setHoveredNode, highlightedNode, toggleHighlight, relatedIds } = useGraphContext();
+    const { hoveredNode, setHoveredNode, highlightedNode, toggleHighlight, relatedIds, typeFilter } = useGraphContext();
+    const isFilteredOut = typeFilter !== null && typeFilter !== type;
     const refs = useRef<(THREE.Object3D | null)[]>([]);
     const colors = useRef<(THREE.Color | null)[]>([]);
     const { base, dim } = PALETTE[type];
@@ -75,7 +76,7 @@ export function InstancedNodes({ type, nodes }: { type: Extract<NodeType, "techn
                 obj.position.set(n.x, n.y + Math.sin(t * 0.6 + i * 1.7) * 0.18, n.z + Math.cos(t * 0.5 + i * 1.3) * 0.1);
                 const isHovered = hoveredNode?.id === n.id;
                 const isHighlighted = highlightedNode?.id === n.id;
-                const target = isHovered || isHighlighted ? 1.7 : 1;
+                const target = isFilteredOut ? 0.001 : isHovered || isHighlighted ? 1.7 : 1;
                 obj.scale.setScalar(THREE.MathUtils.lerp(obj.scale.x, target, 0.18));
             }
             const col = colors.current[i];
@@ -101,18 +102,21 @@ export function InstancedNodes({ type, nodes }: { type: Extract<NodeType, "techn
                             colors.current[i] = self.color as THREE.Color;
                         }}
                         onPointerOver={(e: ThreeEvent<PointerEvent>) => {
+                            if (isFilteredOut) return;
                             e.stopPropagation();
                             setHoveredNode(n);
                             isHoveringRef.current = true;
                             document.body.style.cursor = "pointer";
                         }}
                         onPointerOut={(e: ThreeEvent<PointerEvent>) => {
+                            if (isFilteredOut) return;
                             e.stopPropagation();
                             setHoveredNode(null);
                             isHoveringRef.current = false;
                             document.body.style.cursor = "auto";
                         }}
                         onClick={(e: ThreeEvent<MouseEvent>) => {
+                            if (isFilteredOut) return;
                             e.stopPropagation();
                             toggleHighlight(n);
                         }}

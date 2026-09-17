@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
-import type { PositionedNode } from "@/lib/types";
+import type { NodeType, PositionedNode } from "@/lib/types";
 
 interface GraphContextValue {
     /** Nœud projet actuellement ouvert dans le panneau d'info (ou null). */
@@ -19,6 +19,10 @@ interface GraphContextValue {
 
     /** Ensemble des ids connectés au nœud highlighté (lui inclus), ou null si aucun. */
     relatedIds: Set<string> | null;
+
+    /** Filtre actif sur le type de nœud affiché (boutons de la légende), ou null si aucun. */
+    typeFilter: NodeType | null;
+    setTypeFilter: (type: NodeType | null) => void;
 }
 
 const GraphContext = createContext<GraphContextValue | null>(null);
@@ -34,6 +38,7 @@ export function GraphProvider({
     const [selectedProjectState, setSelectedProjectState] = useState<PositionedNode | null>(null);
     const [hoveredNode, setHoveredNode] = useState<PositionedNode | null>(null);
     const [highlightedNode, setHighlightedNode] = useState<PositionedNode | null>(null);
+    const [typeFilter, setTypeFilterState] = useState<NodeType | null>(null);
 
     // Un seul "focus" actif à la fois : ouvrir le panneau d'un projet ferme la
     // vignette d'une compétence, et inversement — sinon les deux peuvent se
@@ -48,6 +53,16 @@ export function GraphProvider({
     };
     const clearHighlight = () => setHighlightedNode(null);
     const selectedProject = selectedProjectState;
+
+    // Filtrer par type ferme le panneau projet et la surbrillance en cours —
+    // même logique de "focus unique" que selectProject/toggleHighlight, pour
+    // éviter un panneau ouvert sur un nœud que le filtre vient de masquer.
+    // Recliquer le même bouton de légende annule le filtre (toggle).
+    const setTypeFilter = (type: NodeType | null) => {
+        setTypeFilterState((current) => (current === type ? null : type));
+        setSelectedProjectState(null);
+        setHighlightedNode(null);
+    };
 
     const relatedIds = useMemo(() => {
         if (!highlightedNode) return null;
@@ -64,6 +79,8 @@ export function GraphProvider({
         toggleHighlight,
         clearHighlight,
         relatedIds,
+        typeFilter,
+        setTypeFilter,
     };
 
     return <GraphContext.Provider value={value}>{children}</GraphContext.Provider>;

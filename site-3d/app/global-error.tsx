@@ -10,7 +10,9 @@ import { useEffect } from "react";
  */
 export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
     useEffect(() => {
-        console.error("[app/global-error] erreur racine :", error);
+        if (process.env.NODE_ENV !== "production") {
+            console.error("[app/global-error] erreur racine :", error);
+        }
     }, [error]);
 
     return (

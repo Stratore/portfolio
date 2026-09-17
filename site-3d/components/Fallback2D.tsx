@@ -1,4 +1,5 @@
 import { graphData } from "@/data/graph";
+import { ScreenshotGrid } from "./ScreenshotGrid";
 
 function techLabel(id: string): string {
     return graphData.nodes.find((n) => n.id === id)?.label ?? id;
@@ -35,6 +36,9 @@ export function Fallback2D() {
                         <strong>{p.label}</strong>
                         {p.project && <span className="fallback-2d__tagline"> — {p.project.tagline}</span>}
                         {p.project && <p className="fallback-2d__desc">{p.project.description}</p>}
+                        {p.project?.screenshots && p.project.screenshots.length > 0 && (
+                            <ScreenshotGrid screenshots={p.project.screenshots} label={p.label} />
+                        )}
                         {p.project && p.project.tags.length > 0 && (
                             <div className="fallback-2d__tags">
                                 {p.project.tags.map((tagId) => (

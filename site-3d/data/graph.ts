@@ -11,11 +11,16 @@ export const graphData: GraphData = {
             label: "Klass.cpp",
             weight: 1,
             project: {
-                tagline: "Gestion d'étudiants — C++ / SQL",
+                tagline: "Gestion d'étudiants — C++ / Qt",
                 description:
-                    "Projet de gestion d'étudiants en C++, avec persistance des données via SQL. Détails à venir.",
-                tags: ["tech-cpp", "tech-sql"],
+                    "Application de gestion d'étudiants développée en C++ avec Qt : fiches étudiants (identité, coordonnées, photo, section) et suivi des absences, justifiées ou non. Les données sont persistées dans des fichiers bruts, au format JSON ou XML, sans base de données.",
+                tags: ["tech-cpp", "tech-qt", "tech-json", "tech-xml"],
                 github: "https://github.com/Stratore/Klass",
+                screenshots: [
+                    "/assets/screenshots/klass/02-liste-etudiants.png",
+                    "/assets/screenshots/klass/01-formulaire-vide.png",
+                    "/assets/screenshots/klass/03-ajout-absence.png",
+                ],
             },
         },
         {
@@ -29,6 +34,11 @@ export const graphData: GraphData = {
                     "Application GPS développée en C++ avec l'interface graphique Qt, à partir de deux fichiers CSV fournis : les informations des 100 villes clés (population, coordonnées...) et les temps de trajet entre chaque paire de villes. L'application calcule automatiquement le chemin le plus court entre deux points (algorithme de Floyd-Warshall) et permet d'ajouter autant de villes intermédiaires que voulu. Un bandeau d'information affiche les données de la ville sélectionnée (population...), enrichies en direct par l'API Météo France (température, vent, lever du soleil...), dont la réponse JSON est parsée en C++.",
                 tags: ["tech-cpp", "tech-qt", "tech-json", "skill-algo", "skill-api"],
                 github: "https://github.com/Stratore/gps",
+                screenshots: [
+                    "/assets/screenshots/gpierres/02-itineraire-multi-villes.png",
+                    "/assets/screenshots/gpierres/01-carte-villes.png",
+                    "/assets/screenshots/gpierres/03-matrice-trajets.png",
+                ],
             },
         },
         {
@@ -37,11 +47,16 @@ export const graphData: GraphData = {
             label: "Tableau de Bord Interactif",
             weight: 1.3,
             project: {
-                tagline: "SAE S2.05 — Application de bureau C++ / Qt",
+                tagline: "SAE S2.05 — Maquette de facturation gaz en C++ / Qt",
                 description:
-                    "Application de bureau conçue et développée en C++ avec le framework Qt. Elle regroupe un système d'authentification à plusieurs niveaux de droits (utilisateur / administrateur) et un module de facturation qui calcule les coûts, génère des statistiques globales et sauvegarde l'historique en fichiers texte. Un module de calcul d'itinéraire entre villes et de connexion à une API météo est prévu en complément.",
-                tags: ["tech-cpp", "tech-qt", "skill-poo", "skill-ui"],
+                    "Maquette d'application de facturation de gaz réalisée en C++ avec Qt, en groupe. À partir des relevés de compteur (index précédent / index actuel), l'application calcule la consommation en kWh et le montant TTC selon le prix du kWh et l'abonnement mensuel en vigueur. Une session administrateur permet de configurer ces tarifs et affiche un tableau de bord global (nombre de relevés, consommation cumulée, dépense totale).",
+                tags: ["tech-cpp", "tech-qt", "skill-poo", "skill-ui", "skill-gestion-projet"],
                 github: "https://github.com/Stratore/Facture",
+                screenshots: [
+                    "/assets/screenshots/facture/02-tableau-de-bord.png",
+                    "/assets/screenshots/facture/01-connexion.png",
+                    "/assets/screenshots/facture/03-confirmation-saisie.png",
+                ],
             },
         },
         {
@@ -80,6 +95,19 @@ export const graphData: GraphData = {
                 inProgress: true,
             },
         },
+        {
+            id: "proj-portfolio",
+            type: "projet",
+            label: "Ce Portfolio 3D",
+            weight: 1,
+            project: {
+                tagline: "Graphe 3D interactif — conçu en pilotage actif avec l'IA",
+                description:
+                    "Le site que tu es en train de consulter : un portfolio en graphe 3D interactif (avec repli en vue texte classique), développé en TypeScript avec Next.js, React Three Fiber et Three.js. Conçu en pilotant activement des outils d'IA (Claude Code) — cadrage des fonctionnalités, revue de chaque changement, itération rapide sur le design — plutôt qu'en la subissant : une façon concrète de montrer cette compétence à l'œuvre.",
+                tags: ["tech-typescript", "tech-react", "tech-threejs", "skill-ia", "skill-ui"],
+                github: "https://github.com/Stratore/portfolio",
+            },
+        },
 
         // --- Technologies ---
         { id: "tech-cpp", type: "techno", label: "C++", weight: 1 },
@@ -93,7 +121,11 @@ export const graphData: GraphData = {
         { id: "tech-javascript", type: "techno", label: "JavaScript", weight: 0.6 },
         { id: "tech-qt", type: "techno", label: "Qt", weight: 0.5 },
         { id: "tech-json", type: "techno", label: "JSON", weight: 0.5 },
+        { id: "tech-xml", type: "techno", label: "XML", weight: 0.5 },
         { id: "tech-sqlite", type: "techno", label: "SQLite", weight: 0.6 },
+        { id: "tech-typescript", type: "techno", label: "TypeScript", weight: 0.7 },
+        { id: "tech-react", type: "techno", label: "React / Next.js", weight: 0.7 },
+        { id: "tech-threejs", type: "techno", label: "Three.js / WebGL", weight: 0.6 },
 
         // --- Compétences ---
         { id: "skill-algo", type: "skill", label: "Algorithmique", weight: 0.9 },
@@ -104,11 +136,14 @@ export const graphData: GraphData = {
         { id: "skill-api", type: "skill", label: "Intégration d'API", weight: 0.8 },
         { id: "skill-ui", type: "skill", label: "UI / UX", weight: 0.7 },
         { id: "skill-gestion-projet", type: "skill", label: "Gestion de projet", weight: 0.7 },
+        { id: "skill-ia", type: "skill", label: "Collaboration avec l'IA", weight: 0.9 },
     ],
     edges: [
         // Projets → technologies utilisées
         { source: "proj-klass", target: "tech-cpp" },
-        { source: "proj-klass", target: "tech-sql" },
+        { source: "proj-klass", target: "tech-qt" },
+        { source: "proj-klass", target: "tech-json" },
+        { source: "proj-klass", target: "tech-xml" },
         { source: "proj-gps", target: "tech-cpp" },
         { source: "proj-gps", target: "tech-qt" },
         { source: "proj-gps", target: "tech-json" },
@@ -118,6 +153,7 @@ export const graphData: GraphData = {
         { source: "proj-dashboard", target: "tech-qt" },
         { source: "proj-dashboard", target: "skill-poo" },
         { source: "proj-dashboard", target: "skill-ui" },
+        { source: "proj-dashboard", target: "skill-gestion-projet" },
         { source: "proj-tripleboot", target: "tech-linux" },
         { source: "proj-tripleboot", target: "tech-windows" },
         { source: "proj-tripleboot", target: "skill-systemes" },
@@ -131,6 +167,11 @@ export const graphData: GraphData = {
         { source: "proj-facelog", target: "skill-cyber" },
         { source: "proj-facelog", target: "skill-ui" },
         { source: "proj-facelog", target: "skill-gestion-projet" },
+        { source: "proj-portfolio", target: "tech-typescript" },
+        { source: "proj-portfolio", target: "tech-react" },
+        { source: "proj-portfolio", target: "tech-threejs" },
+        { source: "proj-portfolio", target: "skill-ia" },
+        { source: "proj-portfolio", target: "skill-ui" },
 
         // Compétences ↔ technologies associées
         { source: "skill-algo", target: "tech-cpp" },

@@ -11,7 +11,7 @@ const ACCENT = "#5ec8ff";
 const ACCENT_DIM = "#2b4a5c";
 
 export function ProjectNode({ node, seed }: { node: PositionedNode; seed: number }) {
-    const { hoveredNode, setHoveredNode, selectedProject, selectProject, relatedIds } = useGraphContext();
+    const { hoveredNode, setHoveredNode, selectedProject, selectProject, relatedIds, typeFilter } = useGraphContext();
     const group = useRef<THREE.Group>(null);
     const mesh = useRef<THREE.Mesh>(null);
     const material = useRef<THREE.MeshStandardMaterial>(null);
@@ -20,6 +20,7 @@ export function ProjectNode({ node, seed }: { node: PositionedNode; seed: number
     const isHovered = hoveredNode?.id === node.id;
     const isSelected = selectedProject?.id === node.id;
     const isDimmed = relatedIds !== null && !relatedIds.has(node.id);
+    const isFilteredOut = typeFilter !== null && typeFilter !== node.type;
 
     const basePos = useMemo(() => new THREE.Vector3(node.x, node.y, node.z), [node.x, node.y, node.z]);
 
@@ -43,20 +44,20 @@ export function ProjectNode({ node, seed }: { node: PositionedNode; seed: number
                 basePos.z + Math.cos(t * 0.4 + seed) * 0.15
             );
         }
-        const targetScale = isHovered || isSelected ? 1.35 : 1;
+        const targetScale = isFilteredOut ? 0.001 : isHovered || isSelected ? 1.35 : 1;
         if (mesh.current) {
             // setScalar + lerp scalaire plutôt que lerp(new THREE.Vector3(...)) :
             // évite d'allouer un Vector3 à chaque nœud, à chaque frame.
             mesh.current.scale.setScalar(THREE.MathUtils.lerp(mesh.current.scale.x, targetScale, 0.15));
         }
         if (material.current) {
-            const targetIntensity = isHovered || isSelected ? 2.2 : isDimmed ? 0.25 : 1.1;
+            const targetIntensity = isFilteredOut ? 0 : isHovered || isSelected ? 2.2 : isDimmed ? 0.25 : 1.1;
             material.current.emissiveIntensity = THREE.MathUtils.lerp(
                 material.current.emissiveIntensity,
                 targetIntensity,
                 0.12
             );
-            const targetOpacity = isDimmed ? 0.25 : 1;
+            const targetOpacity = isFilteredOut ? 0 : isDimmed ? 0.25 : 1;
             material.current.opacity = THREE.MathUtils.lerp(material.current.opacity, targetOpacity, 0.12);
         }
     });
@@ -66,18 +67,21 @@ export function ProjectNode({ node, seed }: { node: PositionedNode; seed: number
             <mesh
                 ref={mesh}
                 onPointerOver={(e) => {
+                    if (isFilteredOut) return;
                     e.stopPropagation();
                     setHoveredNode(node);
                     isHoveringRef.current = true;
                     document.body.style.cursor = "pointer";
                 }}
                 onPointerOut={(e) => {
+                    if (isFilteredOut) return;
                     e.stopPropagation();
                     setHoveredNode(null);
                     isHoveringRef.current = false;
                     document.body.style.cursor = "auto";
                 }}
                 onClick={(e) => {
+                    if (isFilteredOut) return;
                     e.stopPropagation();
                     selectProject(isSelected ? null : node);
                 }}
@@ -101,7 +105,7 @@ export function ProjectNode({ node, seed }: { node: PositionedNode; seed: number
                 l'angle d'orbite — sans ça le texte est un plan fixe dans l'espace 3D
                 et devient illisible (vu de tranche) dès qu'on tourne autour. */}
             <Suspense fallback={null}>
-                <Billboard position={[0, -radius - 0.75, 0]}>
+                <Billboard visible={!isFilteredOut} position={[0, -radius - 0.75, 0]}>
                     <Text
                         fontSize={0.75}
                         color={isDimmed ? ACCENT_DIM : "#ffffff"}

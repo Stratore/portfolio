@@ -17,6 +17,10 @@ export interface ProjectDetails {
      * montrer pour l'instant — affiche un badge "Projet en cours" à la place
      * du lien "Code source" plutôt que de laisser cet espace vide/muet. */
     inProgress?: boolean;
+    /** Captures d'écran réelles de l'app (2-4 idéalement) — remplace `image`
+     * quand fourni, affichées en petite galerie cliquable (agrandissement en
+     * plein écran). Prend le pas sur `image` mais pas sur `video`. */
+    screenshots?: string[];
 }
 
 export interface RawNode {

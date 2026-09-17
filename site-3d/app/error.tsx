@@ -10,7 +10,9 @@ import { useEffect } from "react";
  */
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
     useEffect(() => {
-        console.error("[app/error] rendu de page interrompu :", error);
+        if (process.env.NODE_ENV !== "production") {
+            console.error("[app/error] rendu de page interrompu :", error);
+        }
     }, [error]);
 
     return (
