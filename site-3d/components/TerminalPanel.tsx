@@ -3,7 +3,7 @@
 import { useEffect, type ReactNode } from "react";
 
 /**
- * Coque partagée par CVTerminal et ContactTerminal — un panneau en verre
+ * Coque partagée par CVTerminal et ContactTerminal - un panneau en verre
  * dépoli sombre façon instrument de bord, RIGOUREUSEMENT centré (flex,
  * indépendant de la résolution), avec une barre de titre façon terminal.
  * Remplace l'ancienne métaphore "feuille de papier" (DocumentOverlay),

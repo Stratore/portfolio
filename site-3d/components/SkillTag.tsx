@@ -32,7 +32,7 @@ export function SkillTag() {
 
     // .world-canvas (parent du <Canvas>) a son propre z-index (pour rester
     // sous le HUD) : ça plafonne TOUT son contenu, y compris ce que <Html>
-    // porte dans le DOM par défaut — aucun z-index interne ne peut alors
+    // porte dans le DOM par défaut - aucun z-index interne ne peut alors
     // dépasser le HUD. On téléporte donc explicitement la vignette dans
     // #skill-tag-portal, un conteneur frère du HUD (cf. World3D.tsx),
     // pour sortir de cette contrainte de contexte d'empilement.

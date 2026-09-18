@@ -1,4 +1,4 @@
-// Contenu réel du CV de Pierre Puget — utilisé par le panneau CV
+// Contenu réel du CV de Pierre Puget - utilisé par le panneau CV
 // (components/CVTerminal.tsx). Séparé du rendu pour la même raison que
 // data/graph.ts : une seule source de vérité, modifiable sans toucher au code.
 export const cvData = {
@@ -22,12 +22,12 @@ export const cvData = {
     ],
 
     education: [
-        { title: "Baccalauréat", period: "2024 – 2025", place: "Lycée Louis Pasquet, Arles", note: "Mention Assez Bien" },
+        { title: "Baccalauréat", period: "2024 - 2025", place: "Lycée Louis Pasquet, Arles", note: "Mention Assez Bien" },
         { title: "BAFA", period: "2025", place: "IFAC, Nîmes" },
         { title: "PSC1", period: "2025", place: "La Croix Rouge, Arles" },
         {
             title: "Diplôme National du Brevet",
-            period: "2018 – 2022",
+            period: "2018 - 2022",
             place: "Collège Vincent Van Gogh, Arles",
             note: "Mention Très Bien",
         },
@@ -36,7 +36,7 @@ export const cvData = {
     experience: [
         {
             title: "Cours de soutien scolaire",
-            period: "2024 – 2026",
+            period: "2024 - 2026",
             place: "À domicile",
             desc: "Accompagnement de deux élèves dans leurs devoirs, avec des approches ludiques pour progresser.",
         },
@@ -55,14 +55,14 @@ export const cvData = {
         {
             title: "Stage en entreprise",
             period: "2022",
-            place: "ESISAR — Grenoble INP, Valence",
+            place: "ESISAR - Grenoble INP, Valence",
             desc: "Découverte des bases de l'informatique et de la cybersécurité auprès d'étudiants ingénieurs.",
         },
     ],
 
     languages: [
-        { name: "Anglais", level: "B2 — Intermédiaire avancé" },
-        { name: "Espagnol", level: "A2 — Les bases" },
+        { name: "Anglais", level: "B2 - Intermédiaire avancé" },
+        { name: "Espagnol", level: "A2 - Les bases" },
     ],
 
     traits: [

@@ -7,7 +7,7 @@ export interface CameraFraming {
 
 /**
  * Calcule un cadrage caméra qui englobe entièrement une sphère (centre +
- * rayon) donnée — totalement indépendant du nombre de nœuds dans le graphe.
+ * rayon) donnée - totalement indépendant du nombre de nœuds dans le graphe.
  * Ajouter des projets ne fait que changer `center`/`radius` en entrée ; ce
  * calcul continue de produire un cadrage cohérent sans aucun réglage manuel.
  */

@@ -24,9 +24,10 @@ import { HUD } from "./HUD";
 import { SceneEffects } from "./SceneEffects";
 import { BootSequence } from "./BootSequence";
 import { CursorTrail } from "./CursorTrail";
+import { GraphKeyboardNav } from "./GraphKeyboardNav";
 
 /**
- * Racine du monde 3D. Composant client uniquement (WebGL) — importé par
+ * Racine du monde 3D. Composant client uniquement (WebGL) - importé par
  * app/page.tsx via next/dynamic({ ssr: false }) pour ne jamais s'exécuter
  * côté serveur ; app/page.tsx affiche Fallback2D en parallèle pour le SEO
  * et les navigateurs sans JavaScript.
@@ -93,7 +94,7 @@ export default function World3D() {
                         maxDistance={defaultFraming.maxDistance}
                         // Évite les deux pôles de la sphère d'orbite : juste avant/après,
                         // une rotation azimutale infime produit un balayage visuel énorme
-                        // (quasi-gimbal lock) — c'est ce qui donnait l'impression que la
+                        // (quasi-gimbal lock) - c'est ce qui donnait l'impression que la
                         // caméra "se coince". La plage restante (~157°) couvre largement
                         // toutes les vues utiles du graphe.
                         minPolarAngle={Math.PI / 8}
@@ -117,6 +118,7 @@ export default function World3D() {
             <MiniMap />
             <BootSequence />
             <CursorTrail />
+            <GraphKeyboardNav />
         </GraphProvider>
     );
 }

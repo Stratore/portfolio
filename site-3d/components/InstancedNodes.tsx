@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
-import { Billboard, Instances, Instance, Text } from "@react-three/drei";
+import { Billboard, Instances, Instance, Text, type PositionMesh } from "@react-three/drei";
 import * as THREE from "three";
 import type { NodeType, PositionedNode } from "@/lib/types";
 import { useGraphContext } from "./GraphContext";
@@ -15,7 +15,7 @@ const PALETTE: Record<NodeType, { base: string; dim: string }> = {
 
 /**
  * Rendu instancié (instancedMesh via drei <Instances>) pour les nœuds
- * "Technologie" et "Compétence" — le même schéma s'étend sans coût
+ * "Technologie" et "Compétence" - le même schéma s'étend sans coût
  * supplémentaire à des centaines de nœuds.
  */
 export function InstancedNodes({ type, nodes }: { type: Extract<NodeType, "techno" | "skill">; nodes: PositionedNode[] }) {
@@ -35,7 +35,7 @@ export function InstancedNodes({ type, nodes }: { type: Extract<NodeType, "techn
 
     // Seul un nœud à la fois peut être survolé/épinglé dans ce groupe : un
     // unique Billboard+Text réutilisé (repositionné, jamais démonté) plutôt
-    // qu'un Suspense par nœud qui se monte/démonte à chaque survol — évite de
+    // qu'un Suspense par nœud qui se monte/démonte à chaque survol - évite de
     // refaire tourner troika (regénération de la géométrie SDF) en boucle.
     const activeNode = useMemo(
         () => nodes.find((n) => n.id === hoveredNode?.id || n.id === highlightedNode?.id) ?? null,
@@ -43,7 +43,7 @@ export function InstancedNodes({ type, nodes }: { type: Extract<NodeType, "techn
     );
 
     // LOD léger basé sur la distance caméra : au-delà d'un certain éloignement,
-    // on retombe sur la géométrie la plus grossière (0 subdivision) — même
+    // on retombe sur la géométrie la plus grossière (0 subdivision) - même
     // principe qu'un THREE.LOD, généralisable sans changement à des centaines
     // de nœuds instanciés. Recalculé toutes les ~12 frames (pas besoin de plus).
     const { camera } = useThree();
@@ -51,7 +51,7 @@ export function InstancedNodes({ type, nodes }: { type: Extract<NodeType, "techn
     const frameCount = useRef(0);
     const detail = isFar ? 0 : nearDetail;
 
-    // Filet anti-curseur-bloqué : cf. le même correctif dans ProjectNode.tsx —
+    // Filet anti-curseur-bloqué : cf. le même correctif dans ProjectNode.tsx -
     // sans ça, démonter ce composant (bascule de vue) pendant un survol laisse
     // document.body.style.cursor bloqué sur "pointer" indéfiniment.
     const isHoveringRef = useRef(false);
@@ -98,8 +98,8 @@ export function InstancedNodes({ type, nodes }: { type: Extract<NodeType, "techn
                         ref={(el: THREE.Object3D | null) => { refs.current[i] = el; }}
                         color={base}
                         position={[n.x, n.y, n.z]}
-                        onUpdate={(self: any) => {
-                            colors.current[i] = self.color as THREE.Color;
+                        onUpdate={(self: PositionMesh) => {
+                            colors.current[i] = self.color;
                         }}
                         onPointerOver={(e: ThreeEvent<PointerEvent>) => {
                             if (isFilteredOut) return;

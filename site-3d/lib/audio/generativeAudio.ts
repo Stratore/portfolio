@@ -1,10 +1,10 @@
 import { defaultFraming } from "@/lib/defaultFraming";
 
-// --- Design sonore — Option C : loops ambiants pré-produits, mixage réactif --
+// --- Design sonore - Option C : loops ambiants pré-produits, mixage réactif --
 // Fini la synthèse en temps réel (source du son "crispant/fatigant") : les
 // deux textures ci-dessous sont rendues hors-ligne (accord ouvert en
 // synthèse additive, réverbération algorithmique type Freeverb, bouclage
-// sans coupure — voir le script de rendu) puis exportées en MP3. Le
+// sans coupure - voir le script de rendu) puis exportées en MP3. Le
 // Web Audio API ne sert plus ici qu'à LIRE et MIXER ces boucles de façon
 // réactive : crossfade selon le zoom, filtre doux selon le mouvement.
 // Jamais de distorsion possible : aucun paramètre ne peut faire saturer
@@ -22,7 +22,7 @@ const FADE_IN_SECONDS = 4;
 const MUTE_RAMP_SECONDS = 0.8;
 const SMOOTHING = 0.03;
 
-// Balance deep/high à distance min (proche) et max (loin) du graphe —
+// Balance deep/high à distance min (proche) et max (loin) du graphe -
 // jamais 0/1 pur : les deux couches restent toujours un peu présentes
 // pour un mélange riche, seul l'équilibre se déplace avec le zoom.
 const DEEP_GAIN_FAR = 0.9;
@@ -41,7 +41,7 @@ async function loadBuffer(ctx: AudioContext, url: string): Promise<AudioBuffer> 
 }
 
 /**
- * Moteur audio — lecture réactive de deux nappes pré-rendues (pas de
+ * Moteur audio - lecture réactive de deux nappes pré-rendues (pas de
  * synthèse en temps réel). `update()` pilote uniquement :
  *  - la balance deep/high (zoom caméra),
  *  - l'ouverture d'un filtre passe-bas doux (mouvement caméra, rotation ET pan).
@@ -70,7 +70,7 @@ class GenerativeAudioEngine {
         return this.muted;
     }
 
-    /** À appeler depuis un vrai geste utilisateur (clic) — contrainte des navigateurs. */
+    /** À appeler depuis un vrai geste utilisateur (clic) - contrainte des navigateurs. */
     async start() {
         if (this.started) {
             this.ctx?.resume();
@@ -86,7 +86,7 @@ class GenerativeAudioEngine {
             // Toute cette section (y compris la création du contexte lui-même)
             // est protégée : certains environnements bloquent Web Audio (iframe
             // sandboxée, politique navigateur stricte...) et `new AudioContext()`
-            // peut lever une exception — sans ce filet, `starting` restait bloqué
+            // peut lever une exception - sans ce filet, `starting` restait bloqué
             // à `true` pour toujours et plus aucun futur appel à `start()` n'aurait
             // d'effet, même après un vrai geste utilisateur ultérieur.
             const ctx = new AudioContext();

@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
-
+/* Polices : --font-head/--font-body/--font-mono sont injectées par next/font
+   (cf. app/layout.tsx, className sur <body>) - plus d'@import CSS tiers ici. */
 :root {
     --bg: #030407;
     --text: #f2f6f8;
@@ -7,9 +7,6 @@
     --accent: #5ec8ff;
     --glass-bg: rgba(10, 14, 20, 0.55);
     --glass-border: rgba(255, 255, 255, 0.12);
-    --font-head: 'Space Grotesk', 'Inter', sans-serif;
-    --font-body: 'Inter', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -48,9 +45,9 @@ a { color: var(--accent); }
     border-radius: 14px;
 }
 
-/* === CURSEUR — halo suiveur (souris fine uniquement, cf. CursorTrail.tsx) === */
+/* === CURSEUR - halo suiveur (souris fine uniquement, cf. CursorTrail.tsx) === */
 /* !important nécessaire : ProjectNode/InstancedNodes posent
-   document.body.style.cursor = "pointer" en ligne au survol d'un nœud — une
+   document.body.style.cursor = "pointer" en ligne au survol d'un nœud - une
    règle de feuille de style avec !important reste la seule façon fiable de
    passer devant un style inline sur ce même élément. */
 body.cursor-hidden, body.cursor-hidden * { cursor: none !important; }
@@ -61,7 +58,7 @@ body.cursor-hidden, body.cursor-hidden * { cursor: none !important; }
     will-change: transform;
 }
 
-/* === SÉQUENCE DE BOOT (une fois, au premier montage — cf. BootSequence.tsx) === */
+/* === SÉQUENCE DE BOOT (une fois, au premier montage - cf. BootSequence.tsx) === */
 .boot-sequence {
     position: fixed; top: 96px; left: 20px; z-index: 15;
     font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.7; color: var(--text-muted);
@@ -81,7 +78,7 @@ body.cursor-hidden, body.cursor-hidden * { cursor: none !important; }
 }
 
 /* === SPLIT TEXT (révélation caractère par caractère) === */
-/* Inspiré de React Bits, réimplémenté en CSS pur — cf. components/SplitText.tsx */
+/* Inspiré de React Bits, réimplémenté en CSS pur - cf. components/SplitText.tsx */
 .split-text { display: inline-block; }
 .split-text__char {
     display: inline-block;
@@ -218,12 +215,12 @@ body.cursor-hidden, body.cursor-hidden * { cursor: none !important; }
        un centrage laissait le panneau déborder sur ces deux zones dès que la
        description d'un projet était un peu longue (chevauchement constaté).
        Avec top/bottom fixes, sa hauteur s'ajuste automatiquement et ne peut
-       plus jamais les recouvrir — le contenu qui dépasse défile. */
+       plus jamais les recouvrir - le contenu qui dépasse défile. */
     position: fixed; top: 150px; right: 24px; bottom: 250px; z-index: 30;
     width: min(400px, 88vw); overflow-y: auto;
     padding: 2.2rem 2rem; display: flex; flex-direction: column; gap: 0.9rem;
 }
-/* === MÉDIA PROJET (vidéo ou image unique) — après la description, pas en
+/* === MÉDIA PROJET (vidéo ou image unique) - après la description, pas en
    bannière d'ouverture : on lit d'abord ce qu'est le projet, l'image vient
    ensuite comme preuve/illustration. Carte contenue dans le padding du
    panneau (coins arrondis, bordure fine, légère ombre) plutôt que le
@@ -282,7 +279,7 @@ body.cursor-hidden, body.cursor-hidden * { cursor: none !important; }
 .info-panel__actions { display: flex; gap: 1.2rem; margin-top: 0.4rem; }
 .info-panel__link { font-size: 0.85rem; text-decoration: none; font-weight: 500; }
 .info-panel__link:hover { text-decoration: underline; }
-/* Remplace le lien "Code source" quand il n'y en a pas encore — un pastille
+/* Remplace le lien "Code source" quand il n'y en a pas encore - un pastille
    qui pulse doucement plutôt qu'un espace vide/muet, pour que l'absence de
    lien se lise clairement comme "pas encore de dépôt", pas comme un oubli. */
 .info-panel__status {
@@ -329,6 +326,28 @@ body.cursor-hidden, body.cursor-hidden * { cursor: none !important; }
 .skill-tag-portal {
     position: fixed; inset: 0; z-index: 45; pointer-events: none;
 }
+
+/* === NAVIGATION CLAVIER DU GRAPHE (cf. GraphKeyboardNav.tsx) === */
+/* Chaque bouton reste focusable en permanence (jamais display:none, qui le
+   retirerait de l'ordre de tabulation) mais hors-écran tant qu'il n'a pas le
+   focus - même principe qu'un lien d'évitement ("skip to content"). */
+.graph-keyboard-nav { position: fixed; top: 0; left: 0; z-index: 200; }
+.graph-keyboard-nav__item {
+    position: fixed; top: -9999px; left: -9999px;
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: var(--font-mono); font-size: 0.8rem; color: var(--text); white-space: nowrap;
+    background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 8px;
+    padding: 0.55rem 0.9rem; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    cursor: pointer;
+}
+.graph-keyboard-nav__item:focus {
+    top: 20px; left: 20px; outline: 2px solid var(--accent); outline-offset: 2px;
+}
+.graph-keyboard-nav__kind {
+    font-size: 0.64rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent);
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--glass-border)); border-radius: 20px;
+    padding: 0.15rem 0.5rem; flex-shrink: 0;
+}
 .skill-tag {
     min-width: 200px; max-width: 260px; padding: 1rem 1.1rem;
     pointer-events: auto; text-align: left;
@@ -346,7 +365,7 @@ body.cursor-hidden, body.cursor-hidden * { cursor: none !important; }
 
 /* === PANNEAU TERMINAL (CV / Contact) === */
 /* Verre dépoli + monospace rigide, dans le même langage visuel que le HUD/
-   InfoPanel (pas une 3e esthétique) — centré par flexbox, donc rigoureusement
+   InfoPanel (pas une 3e esthétique) - centré par flexbox, donc rigoureusement
    au centre de l'écran quelle que soit la résolution. */
 .term-overlay {
     position: fixed; inset: 0; z-index: 110; display: flex; align-items: center; justify-content: center;
@@ -358,7 +377,7 @@ body.cursor-hidden, body.cursor-hidden * { cursor: none !important; }
     display: flex; flex-direction: column; border-radius: 6px;
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
 }
-/* Grain scan-line très léger — renforce le côté écran CRT sans gêner la
+/* Grain scan-line très léger - renforce le côté écran CRT sans gêner la
    lecture (opacité minime, ignore les clics). */
 .term-panel::after {
     content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 5;
@@ -413,12 +432,16 @@ body.cursor-hidden, body.cursor-hidden * { cursor: none !important; }
     padding: 0.5rem 0; transition: color 0.2s;
 }
 .term-cmd::after {
-    content: ""; position: absolute; left: 0; bottom: 0.3rem; width: 0; height: 1px;
+    content: ""; position: absolute; left: 0; bottom: 0.3rem; width: 100%; height: 1px;
     background: var(--accent); box-shadow: 0 0 6px var(--accent);
-    transition: width 0.25s ease;
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.25s ease;
 }
 .term-cmd:hover { color: var(--accent); }
-.term-cmd:hover::after { width: 100%; }
+.term-cmd:hover::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+    .term-cmd::after { transition: none; }
+}
 .term-cmd-list { margin-top: 0.5rem; }
 a.term-cmd { margin-top: 2rem; }
 
@@ -431,7 +454,7 @@ a.term-cmd { margin-top: 2rem; }
 
 /* === VUE CLASSIQUE (fallback 2D + accessibilité) === */
 /* Bascule volontairement visible, dans le même langage visuel que le HUD
-   (verre dépoli, mono, sigil terminal "$" comme dans TerminalPanel) — placée
+   (verre dépoli, mono, sigil terminal "$" comme dans TerminalPanel) - placée
    sous la barre du HUD plutôt que superposée dessus pour ne jamais recouvrir
    les liens Email/CV ni le bouton son. */
 .text-mode-toggle {
@@ -511,12 +534,12 @@ a.term-cmd { margin-top: 2rem; }
     .hud-hint { display: none; }
     /* Même logique qu'en desktop (cf. commentaire sur .info-panel) : ancré
        entre la bascule (en haut) et le bouton reset + la mini-carte (en bas)
-       plutôt qu'un "bottom sheet" ouvert — sinon, en verre dépoli, le texte
+       plutôt qu'un "bottom sheet" ouvert - sinon, en verre dépoli, le texte
        de "Vue d'ensemble" et de la mini-carte transparaissait derrière la
        description du projet (chevauchement + lisibilité dégradée constatés). */
     .info-panel { right: 12px; left: 12px; width: auto; top: 230px; bottom: 190px; transform: none; }
     .minimap-wrap { transform: scale(0.75); transform-origin: bottom right; right: 8px; bottom: 8px; }
     /* Mini-carte réduite (×0.75, ancrée en bas-droite) : son bord haut
-       visible remonte à ~136px du bas — le bouton reset doit rester au-dessus. */
+       visible remonte à ~136px du bas - le bouton reset doit rester au-dessus. */
     .hud-reset { bottom: 145px; }
 }

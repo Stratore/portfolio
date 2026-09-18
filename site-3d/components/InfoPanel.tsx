@@ -16,13 +16,15 @@ export function InfoPanel() {
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
     // Un <video> en lecture (autoPlay+loop) doit être explicitement arrêté et
-    // libéré — le laisser au seul ramasse-miettes peut faire tourner le
+    // libéré - le laisser au seul ramasse-miettes peut faire tourner le
     // décodeur en arrière-plan un moment après la fermeture du panneau ou le
     // changement de projet. Se déclenche au changement de vidéo ET au
-    // démontage (fermeture du panneau).
+    // démontage (fermeture du panneau). L'élément est capturé ICI (au montage
+    // de l'effet) plutôt que relu dans le cleanup : par ce moment-là, la ref
+    // peut déjà pointer vers un autre nœud DOM.
     useEffect(() => {
+        const el = videoRef.current;
         return () => {
-            const el = videoRef.current;
             if (!el) return;
             el.pause();
             el.removeAttribute("src");
@@ -30,11 +32,16 @@ export function InfoPanel() {
         };
     }, [project?.video]);
 
-    // Referme la visionneuse plein écran au changement de projet — sinon un
+    // Referme la visionneuse plein écran au changement de projet - sinon un
     // index de galerie resterait ouvert sur les captures du projet précédent.
-    useEffect(() => {
+    // Ajusté pendant le rendu plutôt que dans un effet (pattern recommandé
+    // par React pour "réinitialiser un état quand une prop change" - évite un
+    // aller-retour de rendu superflu par rapport à un useEffect équivalent).
+    const [lightboxProjectId, setLightboxProjectId] = useState(selectedProject?.id);
+    if (selectedProject?.id !== lightboxProjectId) {
+        setLightboxProjectId(selectedProject?.id);
         setLightboxIndex(null);
-    }, [selectedProject?.id]);
+    }
 
     if (!selectedProject || !project) return null;
 
@@ -47,7 +54,7 @@ export function InfoPanel() {
                     ×
                 </button>
 
-                <p className="info-panel__eyebrow">Dossier — Projet</p>
+                <p className="info-panel__eyebrow">Dossier - Projet</p>
                 <h2 className="info-panel__title">{selectedProject.label}</h2>
                 <p className="info-panel__tagline">{project.tagline}</p>
 
@@ -72,7 +79,7 @@ export function InfoPanel() {
                             loop
                             muted
                             playsInline
-                            aria-label={`Aperçu vidéo — ${selectedProject.label}`}
+                            aria-label={`Aperçu vidéo - ${selectedProject.label}`}
                         />
                     </>
                 ) : project.screenshots && project.screenshots.length > 0 ? (
@@ -84,10 +91,10 @@ export function InfoPanel() {
                                     key={src}
                                     className="info-panel__gallery-item"
                                     onClick={() => setLightboxIndex(i)}
-                                    aria-label={`Agrandir la capture ${i + 1} — ${selectedProject.label}`}
+                                    aria-label={`Agrandir la capture ${i + 1} - ${selectedProject.label}`}
                                 >
                                     {/* eslint-disable-next-line @next/next/no-img-element -- miniatures statiques, pas besoin du pipeline next/image */}
-                                    <img src={src} alt={`${selectedProject.label} — capture ${i + 1}`} loading="lazy" />
+                                    <img src={src} alt={`${selectedProject.label} - capture ${i + 1}`} loading="lazy" />
                                 </button>
                             ))}
                         </div>
@@ -96,6 +103,7 @@ export function InfoPanel() {
                     project.image && (
                         <>
                             <p className="info-panel__section-label">Aperçu</p>
+                            {/* eslint-disable-next-line @next/next/no-img-element -- image statique, pas besoin du pipeline next/image */}
                             <img className="info-panel__media" src={project.image} alt={selectedProject.label} />
                         </>
                     )
@@ -122,7 +130,7 @@ export function InfoPanel() {
             {lightboxSrc && (
                 <ImageLightbox
                     src={lightboxSrc}
-                    alt={`${selectedProject.label} — capture ${(lightboxIndex ?? 0) + 1}`}
+                    alt={`${selectedProject.label} - capture ${(lightboxIndex ?? 0) + 1}`}
                     onClose={() => setLightboxIndex(null)}
                 />
             )}

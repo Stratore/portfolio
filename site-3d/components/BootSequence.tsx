@@ -16,7 +16,7 @@ const FADE_MS = 500;
 
 /**
  * Court log façon terminal qui s'affiche une fois au premier montage, puis
- * disparaît — clin d'œil "boot séquence" cohérent avec l'esthétique
+ * disparaît - clin d'œil "boot séquence" cohérent avec l'esthétique
  * terminal déjà présente (CVTerminal, sigils "$"), jamais un écran d'attente
  * qui bloquerait l'arrivée directe dans la scène 3D (purement décoratif, en
  * coin, la scène est déjà interactive derrière).
@@ -24,13 +24,15 @@ const FADE_MS = 500;
 export function BootSequence() {
     const [visibleLines, setVisibleLines] = useState(0);
     const [fading, setFading] = useState(false);
-    const [done, setDone] = useState(false);
+    // Initialiseur paresseux plutôt qu'un effet : ce composant n'est jamais
+    // rendu côté serveur (World3D est chargé en dynamic ssr:false), donc
+    // `window` est déjà disponible dès le tout premier rendu - pas besoin
+    // d'un effet pour ce calcul, qui devrait de toute façon synchroniser
+    // avec un système externe plutôt que déclencher un setState immédiat.
+    const [done, setDone] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
     useEffect(() => {
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            setDone(true);
-            return;
-        }
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
         const timers: ReturnType<typeof setTimeout>[] = [];
         LINES.forEach((_, i) => {

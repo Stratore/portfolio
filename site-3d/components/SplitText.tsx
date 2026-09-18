@@ -8,7 +8,7 @@ type Tag = "span" | "h1" | "h2" | "h3" | "p";
  * Révélation caractère par caractère (inspirée du composant "Split Text" de
  * React Bits, réimplémentée en CSS pur pour rester sans dépendance et
  * cohérente avec la DA sombre/minimaliste du site). Chaque lettre apparaît
- * avec un léger décalage — évoque un texte qui se matérialise/se compile,
+ * avec un léger décalage - évoque un texte qui se matérialise/se compile,
  * en phase avec l'univers terminal du reste de l'UI.
  */
 export function SplitText({

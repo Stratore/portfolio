@@ -19,7 +19,15 @@ export default function Page() {
 
     return (
         <>
-            <div className={textMode ? "fallback-2d-wrap" : "fallback-2d-wrap fallback-2d-wrap--hidden"}>
+            {/* Masqué visuellement (clip) hors mode texte, mais aussi retiré de l'arbre
+                d'accessibilité et du parcours clavier via inert/aria-hidden - sans ça,
+                un lecteur d'écran ou Tab traverse ce contenu invisible en double avant
+                d'atteindre le HUD réellement affiché. */}
+            <div
+                className={textMode ? "fallback-2d-wrap" : "fallback-2d-wrap fallback-2d-wrap--hidden"}
+                aria-hidden={!textMode}
+                inert={!textMode}
+            >
                 <Fallback2D />
             </div>
 

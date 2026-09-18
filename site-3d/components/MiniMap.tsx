@@ -1,16 +1,16 @@
 "use client";
 
-import { useEffect, useRef, type MouseEvent } from "react";
+import { useEffect, useMemo, useRef, type MouseEvent } from "react";
 import { graphLayout } from "@/lib/graphLayout";
 import { cameraSignal } from "@/lib/cameraSignal";
 import { useGraphContext } from "./GraphContext";
 import type { PositionedNode } from "@/lib/types";
 
-const SIZE = 132; // px, résolution du canvas (carré) — inchangée
+const SIZE = 132; // px, résolution du canvas (carré) - inchangée
 const PADDING = 14;
 const HIT_RADIUS = 13; // px, tolérance de ciblage (clic ET survol)
 
-const BASE_RADIUS = 3.6; // était 2.2 — trop petit pour cibler confortablement
+const BASE_RADIUS = 3.6; // était 2.2 - trop petit pour cibler confortablement
 const ACTIVE_RADIUS = 5.2; // était 3.4
 const HOVER_RADIUS = 4.8;
 
@@ -20,11 +20,23 @@ const NODE_COLOR: Record<string, string> = {
     skill: "#5be8a6",
 };
 
+// Projection X/Z -> pixel écran. Ne dépend que de constantes de module
+// (graphLayout est figé) : fonction pure hors du composant, réutilisée à la
+// fois pour la projection statique des nœuds/arêtes et pour le réticule
+// caméra (qui, lui, bouge à chaque frame).
+function project(x: number, z: number) {
+    const r = graphLayout.radius || 1;
+    return {
+        px: SIZE / 2 + ((x - graphLayout.center[0]) / r) * (SIZE / 2 - PADDING),
+        py: SIZE / 2 + ((z - graphLayout.center[2]) / r) * (SIZE / 2 - PADDING),
+    };
+}
+
 /**
  * Instrument de navigation façon "carte de bord de vaisseau" : projection
  * filaire du graphe vu du dessus (plan X/Z), un réticule montrant la
  * position et l'orientation de la caméra en temps réel, et un clic sur un
- * point pour un fast-travel direct — le même mécanisme que cliquer le nœud
+ * point pour un fast-travel direct - le même mécanisme que cliquer le nœud
  * en 3D (cf. CameraRig). Dessinée en Canvas2D avec sa propre boucle
  * requestAnimationFrame : aucune donnée haute-fréquence ne transite par
  * React (cf. lib/cameraSignal.ts).
@@ -32,20 +44,34 @@ const NODE_COLOR: Record<string, string> = {
 export function MiniMap() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const { selectProject, toggleHighlight, selectedProject, highlightedNode } = useGraphContext();
-    const projected = useRef<{ node: PositionedNode; px: number; py: number }[]>([]);
     const hoverPoint = useRef<{ x: number; y: number } | null>(null);
 
-    const project = (x: number, z: number) => {
-        const r = graphLayout.radius || 1;
-        const px = SIZE / 2 + ((x - graphLayout.center[0]) / r) * (SIZE / 2 - PADDING);
-        const py = SIZE / 2 + ((z - graphLayout.center[2]) / r) * (SIZE / 2 - PADDING);
-        return { px, py };
-    };
+    // Le graphe est figé (graphLayout ne change jamais après le layout
+    // initial) : la projection 2D de chaque nœud/arête est donc constante,
+    // calculée UNE FOIS ici plutôt qu'à chaque frame de la boucle de dessin
+    // ci-dessous - avant, ça réallouait une Map + un tableau, et reprojetait
+    // 25 nœuds et ~49 arêtes, 60 fois par seconde, en continu (même caméra
+    // à l'arrêt et souris ailleurs sur la page).
+    const projected = useMemo<{ node: PositionedNode; px: number; py: number }[]>(
+        () => graphLayout.nodes.map((n) => ({ node: n, ...project(n.x, n.z) })),
+        []
+    );
+
+    const projectedEdges = useMemo(() => {
+        const byId = new Map(projected.map((p) => [p.node.id, p]));
+        const lines: { a: { px: number; py: number }; b: { px: number; py: number } }[] = [];
+        for (const e of graphLayout.edges) {
+            const a = byId.get(e.source.id);
+            const b = byId.get(e.target.id);
+            if (a && b) lines.push({ a, b });
+        }
+        return lines;
+    }, [projected]);
 
     const nearestNode = (x: number, y: number) => {
         let nearest: { node: PositionedNode; px: number; py: number } | null = null;
         let nearestDist = HIT_RADIUS;
-        for (const p of projected.current) {
+        for (const p of projected) {
             const d = Math.hypot(p.px - x, p.py - y);
             if (d < nearestDist) {
                 nearestDist = d;
@@ -62,7 +88,22 @@ export function MiniMap() {
         if (!ctx) return;
 
         let raf = 0;
+        // Signature de la dernière frame effectivement dessinée : tant que
+        // rien de visible n'a changé (caméra immobile, pas de survol), on
+        // saute le redessin plutôt que de repeindre un canvas identique à
+        // 60 fps pour rien.
+        let lastSignature = "";
         const draw = () => {
+            const hoveredId = hoverPoint.current ? nearestNode(hoverPoint.current.x, hoverPoint.current.y)?.node.id : undefined;
+            const signature = `${cameraSignal.x.toFixed(2)}|${cameraSignal.z.toFixed(2)}|${cameraSignal.dirX.toFixed(
+                3
+            )}|${cameraSignal.dirZ.toFixed(3)}|${selectedProject?.id ?? ""}|${highlightedNode?.id ?? ""}|${hoveredId ?? ""}`;
+            if (signature === lastSignature) {
+                raf = requestAnimationFrame(draw);
+                return;
+            }
+            lastSignature = signature;
+
             ctx.clearRect(0, 0, SIZE, SIZE);
 
             // Cercle de fond
@@ -72,39 +113,26 @@ export function MiniMap() {
             ctx.lineWidth = 1;
             ctx.stroke();
 
-            const nodes = graphLayout.nodes;
-            const points = new Map<string, { px: number; py: number }>();
-            for (const n of nodes) {
-                points.set(n.id, project(n.x, n.z));
-            }
-
-            // Arêtes (filaire)
+            // Arêtes (filaire) - positions précalculées, cf. `projectedEdges` ci-dessus.
             ctx.strokeStyle = "rgba(255,255,255,0.16)";
             ctx.lineWidth = 1;
-            for (const e of graphLayout.edges) {
-                const a = points.get(e.source.id);
-                const b = points.get(e.target.id);
-                if (!a || !b) continue;
+            for (const { a, b } of projectedEdges) {
                 ctx.beginPath();
                 ctx.moveTo(a.px, a.py);
                 ctx.lineTo(b.px, b.py);
                 ctx.stroke();
             }
 
-            // Nœuds
-            projected.current = [];
-            for (const n of nodes) points.get(n.id) && projected.current.push({ node: n, ...points.get(n.id)! });
-
             const hovered = hoverPoint.current ? nearestNode(hoverPoint.current.x, hoverPoint.current.y) : null;
 
-            for (const { node: n, px, py } of projected.current) {
+            for (const { node: n, px, py } of projected) {
                 const isActive = selectedProject?.id === n.id || highlightedNode?.id === n.id;
                 const isHovered = hovered?.node.id === n.id;
                 const color = NODE_COLOR[n.type] ?? "#ffffff";
                 const radius = isActive ? ACTIVE_RADIUS : isHovered ? HOVER_RADIUS : BASE_RADIUS;
 
                 if (isActive || isHovered) {
-                    // Halo lumineux — rend le ciblage net, demandé explicitement.
+                    // Halo lumineux - rend le ciblage net, demandé explicitement.
                     ctx.save();
                     ctx.shadowColor = color;
                     ctx.shadowBlur = 12;

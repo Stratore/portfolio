@@ -32,7 +32,7 @@ export function HUD() {
             <header className="hud-top glass">
                 <div className="hud-brand">
                     <SplitText as="span" text="Pierre Puget" className="hud-brand__name" delayStep={0.02} />
-                    <span className="hud-brand__role">Développement & Systèmes — BUT Informatique</span>
+                    <span className="hud-brand__role">Développement & Systèmes - BUT Informatique</span>
                 </div>
                 <nav className="hud-links">
                     <button className="hud-links__btn" onClick={() => setActivePanel("contact")}>
@@ -74,7 +74,7 @@ export function HUD() {
                     <button
                         className="hud-legend__clear"
                         onClick={() => setTypeFilter(null)}
-                        aria-label="Réinitialiser le filtre — tout voir"
+                        aria-label="Réinitialiser le filtre - tout voir"
                     >
                         <span aria-hidden="true">×</span> Tout voir
                     </button>

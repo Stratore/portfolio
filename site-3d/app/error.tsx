@@ -5,8 +5,8 @@ import { useEffect } from "react";
 /**
  * Filet de secours au niveau de la route (Next.js App Router) : couvre tout
  * ce qui n'est pas déjà protégé par l'ErrorBoundary local de la scène 3D
- * (cf. components/ErrorBoundary.tsx, qui gère le cas le plus probable —
- * un crash WebGL — avec un repli plus doux vers la vue classique).
+ * (cf. components/ErrorBoundary.tsx, qui gère le cas le plus probable -
+ * un crash WebGL - avec un repli plus doux vers la vue classique).
  */
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
     useEffect(() => {

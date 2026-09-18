@@ -6,7 +6,7 @@ import { SplitText } from "./SplitText";
 
 export function CVTerminal({ onClose }: { onClose: () => void }) {
     return (
-        <TerminalPanel path="~/pierre-puget/cv.tex" title={`CV — ${cvData.name}`} onClose={onClose}>
+        <TerminalPanel path="~/pierre-puget/cv.tex" title={`CV - ${cvData.name}`} onClose={onClose}>
             <p className="term-prompt">
                 <span className="term-prompt__sigil">$</span> cat profil.tex
             </p>
@@ -45,7 +45,7 @@ export function CVTerminal({ onClose }: { onClose: () => void }) {
 
             <p className="term-section">&gt; langues</p>
             <p className="term-array">
-                [{cvData.languages.map((l) => `"${l.name} — ${l.level}"`).join(", ")}]
+                [{cvData.languages.map((l) => `"${l.name} - ${l.level}"`).join(", ")}]
             </p>
 
             <p className="term-section">&gt; atouts</p>

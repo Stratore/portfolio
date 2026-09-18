@@ -5,7 +5,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { cameraSignal } from "@/lib/cameraSignal";
 
-/** Écrit la position/orientation caméra dans cameraSignal à chaque frame — ne rend rien. */
+/** Écrit la position/orientation caméra dans cameraSignal à chaque frame - ne rend rien. */
 export function MiniMapTracker() {
     const { camera } = useThree();
     const dir = useRef(new THREE.Vector3());

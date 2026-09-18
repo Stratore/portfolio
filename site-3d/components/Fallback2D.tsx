@@ -6,7 +6,7 @@ function techLabel(id: string): string {
 }
 
 /**
- * Contenu 2D statique, toujours présent dans le HTML généré côté serveur —
+ * Contenu 2D statique, toujours présent dans le HTML généré côté serveur -
  * lisible sans JavaScript et indexable par les moteurs de recherche. Le
  * monde 3D (client-only, ssr:false) vient se superposer par-dessus une fois
  * hydraté ; voir app/page.tsx pour le bouton "vue classique" qui le bascule.
@@ -20,13 +20,13 @@ export function Fallback2D() {
 
     return (
         <main className="fallback-2d">
-            <p className="fallback-2d__eyebrow">Vue classique — même contenu que le graphe 3D</p>
+            <p className="fallback-2d__eyebrow">Vue classique - même contenu que le graphe 3D</p>
             <h1>Pierre Puget</h1>
-            <p className="fallback-2d__role">Étudiant en BUT Informatique — IUT d&apos;Arles</p>
+            <p className="fallback-2d__role">Étudiant en BUT Informatique - IUT d&apos;Arles</p>
             <p className="fallback-2d__intro">
                 Développement C++ / POO, systèmes Linux, web, sensibilisé aux enjeux de cybersécurité. Ce portfolio
                 se présente habituellement sous la forme d&apos;un graphe 3D interactif reliant projets, technologies
-                et compétences — voici son contenu au format texte, pour un accès rapide sans navigation 3D.
+                et compétences - voici son contenu au format texte, pour un accès rapide sans navigation 3D.
             </p>
 
             <h2>Projets</h2>
@@ -34,7 +34,7 @@ export function Fallback2D() {
                 {projects.map((p) => (
                     <li key={p.id}>
                         <strong>{p.label}</strong>
-                        {p.project && <span className="fallback-2d__tagline"> — {p.project.tagline}</span>}
+                        {p.project && <span className="fallback-2d__tagline"> - {p.project.tagline}</span>}
                         {p.project && <p className="fallback-2d__desc">{p.project.description}</p>}
                         {p.project?.screenshots && p.project.screenshots.length > 0 && (
                             <ScreenshotGrid screenshots={p.project.screenshots} label={p.label} />

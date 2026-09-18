@@ -11,7 +11,7 @@ export const graphData: GraphData = {
             label: "Klass.cpp",
             weight: 1,
             project: {
-                tagline: "Gestion d'étudiants — C++ / Qt",
+                tagline: "Gestion d'étudiants - C++ / Qt",
                 description:
                     "Application de gestion d'étudiants développée en C++ avec Qt : fiches étudiants (identité, coordonnées, photo, section) et suivi des absences, justifiées ou non. Les données sont persistées dans des fichiers bruts, au format JSON ou XML, sans base de données.",
                 tags: ["tech-cpp", "tech-qt", "tech-json", "tech-xml"],
@@ -29,7 +29,7 @@ export const graphData: GraphData = {
             label: "GpierreS",
             weight: 1.3,
             project: {
-                tagline: "SAE S2.02 — GPS interactif en C++ / Qt",
+                tagline: "SAE S2.02 - GPS interactif en C++ / Qt",
                 description:
                     "Application GPS développée en C++ avec l'interface graphique Qt, à partir de deux fichiers CSV fournis : les informations des 100 villes clés (population, coordonnées...) et les temps de trajet entre chaque paire de villes. L'application calcule automatiquement le chemin le plus court entre deux points (algorithme de Floyd-Warshall) et permet d'ajouter autant de villes intermédiaires que voulu. Un bandeau d'information affiche les données de la ville sélectionnée (population...), enrichies en direct par l'API Météo France (température, vent, lever du soleil...), dont la réponse JSON est parsée en C++.",
                 tags: ["tech-cpp", "tech-qt", "tech-json", "skill-algo", "skill-api"],
@@ -47,7 +47,7 @@ export const graphData: GraphData = {
             label: "Tableau de Bord Interactif",
             weight: 1.3,
             project: {
-                tagline: "SAE S2.05 — Maquette de facturation gaz en C++ / Qt",
+                tagline: "SAE S2.05 - Maquette de facturation gaz en C++ / Qt",
                 description:
                     "Maquette d'application de facturation de gaz réalisée en C++ avec Qt, en groupe. À partir des relevés de compteur (index précédent / index actuel), l'application calcule la consommation en kWh et le montant TTC selon le prix du kWh et l'abonnement mensuel en vigueur. Une session administrateur permet de configurer ces tarifs et affiche un tableau de bord global (nombre de relevés, consommation cumulée, dépense totale).",
                 tags: ["tech-cpp", "tech-qt", "skill-poo", "skill-ui", "skill-gestion-projet"],
@@ -77,7 +77,7 @@ export const graphData: GraphData = {
             weight: 1.2,
             label: "FaceLog",
             project: {
-                tagline: "Appel automatisé par reconnaissance faciale — projet d'équipe",
+                tagline: "Appel automatisé par reconnaissance faciale - projet d'équipe",
                 description:
                     "Application d'appel automatisé pour le BUT Informatique : un enseignant balaie la salle avec la caméra d'un smartphone, l'application identifie les étudiants présents par rapport au groupe attendu et calcule automatiquement les retards par rapport à l'heure de début du cours. Le projet couvre la gestion du référentiel pédagogique (étudiants, groupes CM/TD/TP, enseignants, cours), l'analyse vidéo (OpenCV, face_recognition) et une base SQLite pour l'historique des présences. Une attention particulière est portée au cadre légal et éthique du traitement de données biométriques (RGPD, CNIL, chiffrement, durée de conservation). Projet d'équipe, encore en cours de développement.",
                 tags: [
@@ -101,9 +101,9 @@ export const graphData: GraphData = {
             label: "Ce Portfolio 3D",
             weight: 1,
             project: {
-                tagline: "Graphe 3D interactif — conçu en pilotage actif avec l'IA",
+                tagline: "Graphe 3D interactif - conçu en pilotage actif avec l'IA",
                 description:
-                    "Le site que tu es en train de consulter : un portfolio en graphe 3D interactif (avec repli en vue texte classique), développé en TypeScript avec Next.js, React Three Fiber et Three.js. Conçu en pilotant activement des outils d'IA (Claude Code) — cadrage des fonctionnalités, revue de chaque changement, itération rapide sur le design — plutôt qu'en la subissant : une façon concrète de montrer cette compétence à l'œuvre.",
+                    "Le site que tu es en train de consulter : un portfolio en graphe 3D interactif (avec repli en vue texte classique), développé en TypeScript avec Next.js, React Three Fiber et Three.js. Conçu en pilotant activement des outils d'IA (Claude Code) - cadrage des fonctionnalités, revue de chaque changement, itération rapide sur le design - plutôt qu'en la subissant : une façon concrète de montrer cette compétence à l'œuvre.",
                 tags: ["tech-typescript", "tech-react", "tech-threejs", "skill-ia", "skill-ui"],
                 github: "https://github.com/Stratore/portfolio",
             },
@@ -188,7 +188,7 @@ export const graphData: GraphData = {
         { source: "skill-ui", target: "tech-qt" },
 
         // Nouvelles technologies : rattachées aux compétences pertinentes,
-        // pas aux projets existants (qui n'utilisent réellement que C++) —
+        // pas aux projets existants (qui n'utilisent réellement que C++) -
         // évite d'affirmer à tort qu'un projet utilise une techno qu'il
         // n'utilise pas.
         { source: "skill-algo", target: "tech-java" },

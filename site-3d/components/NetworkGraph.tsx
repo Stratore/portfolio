@@ -10,7 +10,7 @@ import { SkillTag } from "./SkillTag";
 
 export function NetworkGraph() {
     // Positions figées, calculées une seule fois pour tout le module
-    // (cf. lib/graphLayout.ts) — pas de simulation physique continue ici.
+    // (cf. lib/graphLayout.ts) - pas de simulation physique continue ici.
     const { nodes, edges } = graphLayout;
 
     const projectNodes = useMemo(() => nodes.filter((n) => n.type === "projet"), [nodes]);

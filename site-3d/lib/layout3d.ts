@@ -10,6 +10,15 @@ interface SimNode extends RawNode {
     vz?: number;
 }
 
+// forceLink mute ses liens en place : `source`/`target` démarrent comme les
+// chaînes qu'on lui passe, puis d3-force-3d les remplace par le SimNode
+// résolu dès l'initialisation de la simulation - d'où l'union des deux formes
+// (et la vérification `typeof` dans `.distance()` ci-dessous).
+interface SimLink {
+    source: string | SimNode;
+    target: string | SimNode;
+}
+
 export interface GraphLayoutResult {
     nodes: PositionedNode[];
     edges: PositionedEdge[];
@@ -21,7 +30,7 @@ export interface GraphLayoutResult {
 
 /**
  * Calcule une disposition statique des nœuds dans l'espace 3D via d3-force-3d,
- * puis fige le résultat (pas de simulation continue à chaque frame — les nœuds
+ * puis fige le résultat (pas de simulation continue à chaque frame - les nœuds
  * reçoivent ensuite une légère oscillation "flottante" côté rendu, découplée
  * de la physique du graphe).
  *
@@ -46,14 +55,14 @@ export function computeLayout(data: GraphData): GraphLayoutResult {
             "link",
             forceLink(links)
                 .id((n: SimNode) => n.id)
-                .distance((l: any) => {
+                .distance((l: SimLink) => {
                     const s = nodeById.get(typeof l.source === "string" ? l.source : l.source.id);
                     return s?.type === "projet" ? 6.6 : 3.2;
                 })
                 .strength(0.4)
         )
         .force("center", forceCenter(0, 0, 0))
-        // forceCenter ne fait que recentrer la moyenne globale — elle ne retient pas
+        // forceCenter ne fait que recentrer la moyenne globale - elle ne retient pas
         // les sous-graphes non connectés entre eux (ex : compétences "Web" et
         // "Systèmes", qui ne partagent aucune arête avec les projets). Sans force
         // de rappel par axe, la répulsion forceManyBody les envoie indéfiniment

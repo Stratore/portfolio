@@ -10,6 +10,11 @@ import { graphLayout } from "@/lib/graphLayout";
 
 const DEFAULT_CAMERA_POSITION = new THREE.Vector3(...defaultFraming.position);
 const DEFAULT_TARGET = new THREE.Vector3(...defaultFraming.target);
+// Vecteur constant, jamais muté par crossVectors (qui ne touche pas ses
+// arguments) - safe à partager comme unique instance plutôt que d'en
+// recréer un identique à chaque frame de transition.
+const WORLD_UP = new THREE.Vector3(0, 1, 0);
+const FORWARD_FALLBACK = new THREE.Vector3(0, 0, 1);
 // Distance de "vol" vers un nœud sélectionné, proportionnelle à la taille
 // réelle du graphe plutôt qu'une valeur fixe : avec 10 projets de plus (donc
 // un graphe plus étendu), le zoom de mise au point reste cohérent sans aucun
@@ -25,7 +30,7 @@ const ARRIVAL_EPSILON = 0.05;
  * transition explicite : vers le nœud (projet OU techno/compétence) qui
  * vient d'être sélectionné, ou vers la vue d'ensemble quand rien n'est
  * sélectionné. Une fois la cible atteinte, la boucle cesse totalement de
- * toucher la caméra — les OrbitControls reprennent la main à 100% pour
+ * toucher la caméra - les OrbitControls reprennent la main à 100% pour
  * l'orbite/zoom/pan libres (sans ce garde-fou, un lerp permanent "vers la
  * position par défaut" annulerait en continu toute rotation manuelle de
  * l'utilisateur).
@@ -37,6 +42,14 @@ export function CameraRig({ controlsRef }: { controlsRef: RefObject<OrbitControl
     const desiredCamPos = useRef(new THREE.Vector3());
     const desiredTarget = useRef(new THREE.Vector3());
     const transitioning = useRef(false);
+    // Scratch réutilisé à chaque frame de transition - évite de réallouer 4
+    // Vector3 (~60 fois/seconde pendant le vol vers un nœud) juste pour un
+    // calcul intermédiaire jeté immédiatement après.
+    const scratchNodePos = useRef(new THREE.Vector3());
+    const scratchDir = useRef(new THREE.Vector3());
+    const scratchViewDir = useRef(new THREE.Vector3());
+    const scratchRight = useRef(new THREE.Vector3());
+    const scratchOffset = useRef(new THREE.Vector3());
 
     useEffect(() => {
         transitioning.current = true;
@@ -44,7 +57,7 @@ export function CameraRig({ controlsRef }: { controlsRef: RefObject<OrbitControl
 
     // Bug corrigé : tant que `transitioning` restait vrai (le temps du vol
     // vers un nœud, ~1 seconde), la boucle ci-dessous écrasait la position de
-    // la caméra à CHAQUE frame — un drag utilisateur démarré pendant ce laps
+    // la caméra à CHAQUE frame - un drag utilisateur démarré pendant ce laps
     // de temps se faisait donc annuler en continu, ressenti comme une caméra
     // "bloquée". Dès que l'utilisateur touche réellement les contrôles
     // (OrbitControls émet "start" au pointerdown/molette/touch), on cède la
@@ -65,24 +78,27 @@ export function CameraRig({ controlsRef }: { controlsRef: RefObject<OrbitControl
         if (!controls || !transitioning.current) return;
 
         if (focusNode) {
-            const nodePos = new THREE.Vector3(focusNode.x, focusNode.y, focusNode.z);
-            const dir = nodePos.lengthSq() > 0.0001 ? nodePos.clone().normalize() : new THREE.Vector3(0, 0, 1);
+            const nodePos = scratchNodePos.current.set(focusNode.x, focusNode.y, focusNode.z);
+            const dir =
+                nodePos.lengthSq() > 0.0001
+                    ? scratchDir.current.copy(nodePos).normalize()
+                    : scratchDir.current.copy(FORWARD_FALLBACK);
             const isProject = focusNode.type === "projet";
             const focusDistance = isProject ? PROJECT_FOCUS_DISTANCE : SKILL_FOCUS_DISTANCE;
 
+            scratchOffset.current.set(0, focusDistance * 0.17, 0);
             desiredCamPos.current
                 .copy(nodePos)
                 .add(dir.multiplyScalar(focusDistance))
-                .add(new THREE.Vector3(0, focusDistance * 0.17, 0));
+                .add(scratchOffset.current);
 
             if (isProject) {
                 // Le panneau d'info (InfoPanel) occupe la partie droite de l'écran.
                 // On décale le point de mire vers la droite du nœud : la caméra vise
                 // alors un peu à côté, ce qui fait apparaître le nœud dans la zone
                 // gauche encore visible plutôt que masqué derrière le panneau.
-                const viewDir = nodePos.clone().sub(desiredCamPos.current).normalize();
-                const worldUp = new THREE.Vector3(0, 1, 0);
-                const right = new THREE.Vector3().crossVectors(viewDir, worldUp).normalize();
+                const viewDir = scratchViewDir.current.copy(nodePos).sub(desiredCamPos.current).normalize();
+                const right = scratchRight.current.crossVectors(viewDir, WORLD_UP).normalize();
                 desiredTarget.current.copy(nodePos).add(right.multiplyScalar(focusDistance * 0.32));
             } else {
                 // La vignette d'une compétence est un petit encart 3D ancré près du

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 /**
  * Dernier filet de secours : se déclenche si le root layout lui-même plante.
- * Next.js impose que ce fichier redéfinisse <html>/<body> — le layout normal
+ * Next.js impose que ce fichier redéfinisse <html>/<body> - le layout normal
  * (et son import de globals.css) est court-circuité, donc tout est en style
  * inline ici pour rester lisible même si aucune feuille de style ne charge.
  */

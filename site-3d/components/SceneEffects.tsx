@@ -4,7 +4,7 @@ import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 
 /**
  * Post-traitement de la scène : léger halo sur les matériaux émissifs
- * (Bloom, dosé pour rester net — pas un néon saturé) + vignettage doux.
+ * (Bloom, dosé pour rester net - pas un néon saturé) + vignettage doux.
  * La profondeur de champ à la sélection a été retirée (rendu jugé raté).
  * Composants déclaratifs @react-three/postprocessing : les render targets
  * qu'ils créent sont gérés/libérés par la librairie elle-même au démontage.

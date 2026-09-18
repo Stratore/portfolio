@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 /**
  * Halo lumineux qui suit le curseur avec un léger retard et REMPLACE le
  * curseur natif (masqué via la classe "cursor-hidden" sur <body>, cf.
- * globals.css) — demandé explicitement : seule cette petite lumière doit
+ * globals.css) - demandé explicitement : seule cette petite lumière doit
  * rester visible. La classe n'est posée que si le halo est effectivement
  * actif (souris fine + pas de "réduire les animations") : sur écran tactile
  * ou en cas de préférence d'accessibilité, le curseur natif reste visible,

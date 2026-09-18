@@ -102,7 +102,7 @@ export function ProjectNode({ node, seed }: { node: PositionedNode; seed: number
             {/* Frontière Suspense locale : un chargement de police lent/bloqué ne doit
                 jamais masquer tout le graphe (cf. la Suspense globale dans World3D).
                 Billboard : le libellé fait toujours face à la caméra, quel que soit
-                l'angle d'orbite — sans ça le texte est un plan fixe dans l'espace 3D
+                l'angle d'orbite - sans ça le texte est un plan fixe dans l'espace 3D
                 et devient illisible (vu de tranche) dès qu'on tourne autour. */}
             <Suspense fallback={null}>
                 <Billboard visible={!isFilteredOut} position={[0, -radius - 0.75, 0]}>
